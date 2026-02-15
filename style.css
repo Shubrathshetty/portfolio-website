@@ -182,13 +182,23 @@ img {
 }
 
 .nav-logo {
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 800;
-    background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    letter-spacing: -0.02em;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    letter-spacing: 0.05em;
+    transition: all var(--transition);
+}
+
+.nav-logo:hover {
+    background: var(--text-primary);
+    color: var(--bg-primary);
 }
 
 .nav-links {
