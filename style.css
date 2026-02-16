@@ -69,6 +69,24 @@ body {
     overflow-x: hidden;
 }
 
+#particleCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+nav,
+section,
+footer,
+.mobile-menu {
+    position: relative;
+    z-index: 1;
+}
+
 a {
     text-decoration: none;
     color: inherit;
@@ -187,18 +205,19 @@ img {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    border: 2px solid var(--text-primary);
+    border: none;
+    background: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--text-primary);
+    color: var(--bg-primary);
     letter-spacing: 0.05em;
     transition: all var(--transition);
 }
 
 .nav-logo:hover {
-    background: var(--text-primary);
-    color: var(--bg-primary);
+    opacity: 0.8;
+    transform: scale(1.05);
 }
 
 .nav-links {
@@ -382,29 +401,109 @@ img {
     overflow: hidden;
 }
 
-.hero-bg-glow {
+.orbit-container {
     position: absolute;
-    width: 600px;
-    height: 600px;
-    border-radius: 50%;
-    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    width: 500px;
+    height: 500px;
     pointer-events: none;
-    animation: pulse-glow 6s ease-in-out infinite alternate;
+    perspective: 800px;
 }
 
-@keyframes pulse-glow {
+.orbit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 1.5px solid transparent;
+    border-top-color: rgba(160, 160, 160, 0.6);
+    border-right-color: rgba(120, 120, 120, 0.3);
+    border-bottom-color: rgba(160, 160, 160, 0.1);
+    border-left-color: rgba(120, 120, 120, 0.4);
+}
+
+.orbit-1 {
+    animation: spin-orbit-1 12s linear infinite;
+    transform: rotateX(70deg) rotateY(20deg);
+}
+
+.orbit-2 {
+    width: 80%;
+    height: 80%;
+    top: 10%;
+    left: 10%;
+    border-top-color: rgba(180, 180, 180, 0.5);
+    border-right-color: rgba(140, 140, 140, 0.2);
+    border-bottom-color: rgba(180, 180, 180, 0.05);
+    border-left-color: rgba(140, 140, 140, 0.35);
+    animation: spin-orbit-2 8s linear infinite;
+    transform: rotateX(60deg) rotateY(-30deg);
+}
+
+.orbit-3 {
+    width: 120%;
+    height: 120%;
+    top: -10%;
+    left: -10%;
+    border-width: 1px;
+    border-top-color: rgba(200, 200, 200, 0.4);
+    border-right-color: rgba(160, 160, 160, 0.15);
+    border-bottom-color: rgba(200, 200, 200, 0.05);
+    border-left-color: rgba(160, 160, 160, 0.25);
+    animation: spin-orbit-3 18s linear infinite;
+    transform: rotateX(80deg) rotateY(10deg);
+}
+
+@keyframes spin-orbit-1 {
     0% {
-        opacity: 0.4;
-        transform: translate(-50%, -50%) scale(0.9);
+        transform: rotateX(70deg) rotateY(20deg) rotateZ(0deg);
     }
 
     100% {
-        opacity: 0.8;
-        transform: translate(-50%, -50%) scale(1.1);
+        transform: rotateX(70deg) rotateY(20deg) rotateZ(360deg);
     }
+}
+
+@keyframes spin-orbit-2 {
+    0% {
+        transform: rotateX(60deg) rotateY(-30deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(60deg) rotateY(-30deg) rotateZ(-360deg);
+    }
+}
+
+@keyframes spin-orbit-3 {
+    0% {
+        transform: rotateX(80deg) rotateY(10deg) rotateZ(0deg);
+    }
+
+    100% {
+        transform: rotateX(80deg) rotateY(10deg) rotateZ(360deg);
+    }
+}
+
+[data-theme="dark"] .orbit-1 {
+    border-top-color: rgba(220, 220, 220, 0.5);
+    border-right-color: rgba(200, 200, 200, 0.25);
+    border-left-color: rgba(200, 200, 200, 0.35);
+}
+
+[data-theme="dark"] .orbit-2 {
+    border-top-color: rgba(240, 240, 240, 0.4);
+    border-right-color: rgba(210, 210, 210, 0.15);
+    border-left-color: rgba(210, 210, 210, 0.3);
+}
+
+[data-theme="dark"] .orbit-3 {
+    border-top-color: rgba(255, 255, 255, 0.35);
+    border-right-color: rgba(220, 220, 220, 0.1);
+    border-left-color: rgba(220, 220, 220, 0.2);
 }
 
 .hero-content {
@@ -517,7 +616,7 @@ img {
 
 /* ===== Skills ===== */
 .skills-section {
-    background: var(--bg-secondary);
+    background: transparent;
 }
 
 .skills-grid {
@@ -527,7 +626,9 @@ img {
 }
 
 .skill-category {
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 32px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -611,7 +712,9 @@ img {
 }
 
 .project-card {
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 32px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -681,7 +784,7 @@ img {
 
 /* ===== Achievements ===== */
 .achievements-section {
-    background: var(--bg-secondary);
+    background: transparent;
 }
 
 .achievements-grid {
@@ -692,7 +795,9 @@ img {
 }
 
 .achievement-card {
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 40px 32px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -756,7 +861,9 @@ img {
 }
 
 .education-card {
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 28px 24px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -793,7 +900,9 @@ img {
     max-width: 640px;
     margin: 0 auto;
     text-align: center;
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     padding: 56px 48px;
     border-radius: var(--radius);
     border: 1px solid var(--border);
@@ -853,7 +962,7 @@ img {
 
 /* ===== Footer ===== */
 .footer {
-    background: var(--bg-secondary);
+    background: transparent;
     padding: 48px 0;
     text-align: center;
     border-top: 1px solid var(--border);
@@ -935,4 +1044,19 @@ img {
     .hero-description {
         font-size: 1rem;
     }
+}
+
+/* Dark mode glass cards */
+[data-theme="dark"] .skill-category,
+[data-theme="dark"] .project-card,
+[data-theme="dark"] .achievement-card,
+[data-theme="dark"] .education-card,
+[data-theme="dark"] .contact-content {
+    background: rgba(26, 26, 26, 0.75);
+}
+
+[data-theme="dark"] .skill-category:hover,
+[data-theme="dark"] .project-card:hover,
+[data-theme="dark"] .achievement-card:hover {
+    background: rgba(34, 34, 34, 0.85);
 }
