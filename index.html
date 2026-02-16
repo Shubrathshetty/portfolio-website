@@ -9,31 +9,18 @@
     content="Portfolio of Shubrath Shetty — AI & Data Science student passionate about building intelligent systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-
-  <!-- Three.js CDN -->
-  <script type="importmap">
-  {
-    "imports": {
-      "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
-      "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
-    }
-  }
-  </script>
 </head>
 
 <body>
-  <!-- Custom Cursor -->
-  <div class="cursor-dot" id="cursorDot"></div>
-  <div class="cursor-ring" id="cursorRing"></div>
-
+  <!-- Particle Canvas Background -->
+  <canvas id="particleCanvas"></canvas>
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="container nav-container">
-      <a href="#" class="nav-logo">SS</a>
+      <a href="#" class="nav-logo">SS </a>
       <div class="nav-links desktop-only" id="desktopNav">
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#projects" class="nav-link">Projects</a>
@@ -75,9 +62,13 @@
 
   <!-- Hero Section -->
   <section class="hero" id="hero">
-    <canvas id="heroCanvas"></canvas>
+    <div class="orbit-container">
+      <div class="orbit orbit-1"></div>
+      <div class="orbit orbit-2"></div>
+      <div class="orbit orbit-3"></div>
+    </div>
     <div class="container hero-content">
-      <p class="hero-greeting animate-in"><span class="mono-text">Hello, I'm</span></p>
+      <p class="hero-greeting animate-in">Hello, I'm</p>
       <h1 class="hero-name animate-in delay-1">Shubrath Shetty</h1>
       <h2 class="hero-tagline animate-in delay-2">AI & Data Science Student</h2>
       <p class="hero-description animate-in delay-3">
@@ -119,7 +110,8 @@
     <div class="container">
       <h2 class="section-title">Skills & Technologies</h2>
       <div class="skills-grid">
-        <div class="skill-category glass-card" data-animate data-tilt>
+        <div class="skill-category" data-animate>
+          <div class="skill-icon"></div>
           <h3 class="skill-category-title">Languages</h3>
           <div class="skill-tags">
             <span class="skill-tag">Java</span>
@@ -130,7 +122,8 @@
             <span class="skill-tag">SQL</span>
           </div>
         </div>
-        <div class="skill-category glass-card" data-animate data-tilt>
+        <div class="skill-category" data-animate>
+          <div class="skill-icon"></div>
           <h3 class="skill-category-title">Frameworks</h3>
           <div class="skill-tags">
             <span class="skill-tag">Next.js</span>
@@ -139,7 +132,8 @@
             <span class="skill-tag">FastAPI</span>
           </div>
         </div>
-        <div class="skill-category glass-card" data-animate data-tilt>
+        <div class="skill-category" data-animate>
+          <div class="skill-icon"></div>
           <h3 class="skill-category-title">Databases</h3>
           <div class="skill-tags">
             <span class="skill-tag">MySQL</span>
@@ -148,7 +142,8 @@
             <span class="skill-tag">Firebase</span>
           </div>
         </div>
-        <div class="skill-category glass-card" data-animate data-tilt>
+        <div class="skill-category" data-animate>
+          <div class="skill-icon"></div>
           <h3 class="skill-category-title">Tools</h3>
           <div class="skill-tags">
             <span class="skill-tag">Docker</span>
@@ -160,7 +155,8 @@
             <span class="skill-tag">Power BI</span>
           </div>
         </div>
-        <div class="skill-category glass-card soft-skills-card" data-animate data-tilt>
+        <div class="skill-category soft-skills-card" data-animate>
+          <div class="skill-icon"></div>
           <h3 class="skill-category-title">Soft Skills</h3>
           <div class="skill-tags">
             <span class="skill-tag soft">Time Management</span>
@@ -181,7 +177,7 @@
       <h2 class="section-title">Featured Projects</h2>
       <div class="projects-grid">
 
-        <div class="project-card glass-card" data-animate data-tilt>
+        <div class="project-card" data-animate>
           <div class="project-card-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="1.5">
@@ -199,13 +195,12 @@
           <p class="project-description">An Event management system designed to streamline and digitize the
             schedules of the events efficiently.</p>
           <div class="project-tech">
-            <span class="tech-tag">Laravel</span>
-            <span class="tech-tag">Blade</span>
-            <span class="tech-tag">PHP</span>
+            <span class="tech-tag">Laravel,Blade,PHP</span>
+
           </div>
         </div>
 
-        <div class="project-card glass-card" data-animate data-tilt>
+        <div class="project-card" data-animate>
           <div class="project-card-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="1.5">
@@ -223,13 +218,12 @@
           <p class="project-description">AI-powered system for identifying missing persons using facial recognition with
             age and gender detection capabilities.</p>
           <div class="project-tech">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">OpenCV</span>
-            <span class="tech-tag">Deep Learning</span>
+            <span class="tech-tag">Python,OpenCV,Deep Learning</span>
+
           </div>
         </div>
 
-        <div class="project-card glass-card" data-animate data-tilt>
+        <div class="project-card" data-animate>
           <div class="project-card-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="1.5">
@@ -247,12 +241,12 @@
           <p class="project-description">A sleek weather forecasting application providing accurate and real-time
             weather data and forecasts.</p>
           <div class="project-tech">
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">Weather API</span>
+            <span class="tech-tag">TypeScript,Weather API</span>
+
           </div>
         </div>
 
-        <div class="project-card glass-card" data-animate data-tilt>
+        <div class="project-card" data-animate>
           <div class="project-card-header">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
               stroke="currentColor" stroke-width="1.5">
@@ -270,8 +264,8 @@
           <p class="project-description">Analyzes source code and converts it into clear, human-readable explanations —
             helping developers understand logic instantly.</p>
           <div class="project-tech">
-            <span class="tech-tag">TypeScript</span>
-            <span class="tech-tag">NLP</span>
+            <span class="tech-tag">TypeScript,NLP</span>
+
           </div>
         </div>
 
@@ -284,13 +278,13 @@
     <div class="container">
       <h2 class="section-title">Achievements</h2>
       <div class="achievements-grid">
-        <div class="achievement-card glass-card" data-animate data-tilt>
+        <div class="achievement-card" data-animate>
           <div class="achievement-icon">🏆</div>
           <h3 class="achievement-title">IEEE Member</h3>
           <p class="achievement-description">Active member of the Institute of Electrical and Electronics Engineers —
             engaged with the global technical community.</p>
         </div>
-        <div class="achievement-card glass-card" data-animate data-tilt>
+        <div class="achievement-card" data-animate>
           <div class="achievement-icon">🎭</div>
           <h3 class="achievement-title">2nd Prize — District Drama Competition</h3>
           <p class="achievement-description">Awarded for outstanding performance in a district-level drama competition,
@@ -302,17 +296,17 @@
       <div class="education-section" data-animate>
         <h3 class="education-title">🎓 Education</h3>
         <div class="education-grid">
-          <div class="education-card glass-card" data-tilt>
+          <div class="education-card">
             <h4>B.Tech — AI & Data Science</h4>
             <p>A.J Institute of Engineering and Technology</p>
             <span class="education-detail">CGPA: 7.33</span>
           </div>
-          <div class="education-card glass-card" data-tilt>
+          <div class="education-card">
             <h4>PUC (12th)</h4>
             <p>Pre-University</p>
             <span class="education-detail">88.33%</span>
           </div>
-          <div class="education-card glass-card" data-tilt>
+          <div class="education-card">
             <h4>SSLC (10th)</h4>
             <p>Secondary School</p>
             <span class="education-detail">79.88%</span>
@@ -326,7 +320,7 @@
   <section id="contact" class="section contact-section">
     <div class="container">
       <h2 class="section-title">Get In Touch</h2>
-      <div class="contact-content glass-card" data-animate>
+      <div class="contact-content" data-animate>
         <p class="contact-text">
           I'm currently looking for new opportunities. Whether you have a question, a project idea, or just want to say
           hi —
@@ -395,7 +389,6 @@
   </footer>
 
   <script src="script.js"></script>
-  <script type="module" src="three-scene.js"></script>
 </body>
 
 </html>
