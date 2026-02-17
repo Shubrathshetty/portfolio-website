@@ -44,12 +44,16 @@
     }));
     scene.add(stars);
 
+    // ===== OUTPOST GROUP (drag-to-rotate) =====
+    var outpostGroup = new THREE.Group();
+    scene.add(outpostGroup);
+
     // ===== GROUND — distant planet surface =====
-    const gridHelper = new THREE.GridHelper(80, 80, 0x111128, 0x0a0a18);
+    var gridHelper = new THREE.GridHelper(80, 80, 0x111128, 0x0a0a18);
     gridHelper.position.y = -0.5;
     scene.add(gridHelper);
 
-    const ground = new THREE.Mesh(
+    var ground = new THREE.Mesh(
         new THREE.PlaneGeometry(80, 80),
         new THREE.MeshStandardMaterial({ color: 0x060610, roughness: 0.95, metalness: 0.1 })
     );
@@ -62,10 +66,10 @@
     const platMat = new THREE.MeshStandardMaterial({ color: 0x12122a, metalness: 0.7, roughness: 0.3 });
 
     // Main hexagonal platform
-    const platform = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.15, 6), platMat);
+    var platform = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.15, 6), platMat);
     platform.position.set(0, -0.35, 0);
     platform.receiveShadow = true;
-    scene.add(platform);
+    outpostGroup.add(platform);
 
     // Glowing inner ring
     const innerRing = new THREE.Mesh(
@@ -74,7 +78,7 @@
     );
     innerRing.rotation.x = -Math.PI / 2;
     innerRing.position.y = -0.26;
-    scene.add(innerRing);
+    outpostGroup.add(innerRing);
 
     // Outer accent ring
     const outerRing = new THREE.Mesh(
@@ -83,7 +87,7 @@
     );
     outerRing.rotation.x = -Math.PI / 2;
     outerRing.position.y = -0.27;
-    scene.add(outerRing);
+    outpostGroup.add(outerRing);
 
     // Support pillars at platform edges
     const pillarMat = new THREE.MeshStandardMaterial({ color: 0x0e0e25, metalness: 0.8, roughness: 0.3 });
@@ -91,15 +95,14 @@
         const angle = (i / 6) * Math.PI * 2;
         const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 6), pillarMat);
         pillar.position.set(Math.cos(angle) * 3.1, 0.25, Math.sin(angle) * 3.1);
-        scene.add(pillar);
+        outpostGroup.add(pillar);
 
-        // Top beacon light
         const beacon = new THREE.Mesh(
             new THREE.SphereGeometry(0.04, 8, 8),
             new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.6 })
         );
         beacon.position.set(Math.cos(angle) * 3.1, 0.85, Math.sin(angle) * 3.1);
-        scene.add(beacon);
+        outpostGroup.add(beacon);
     }
 
     // ===== MODULAR WORKSTATION =====
@@ -109,14 +112,14 @@
     const desk = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.06, 0.8), metalMat);
     desk.position.set(0, 0.7, -0.4);
     desk.castShadow = true;
-    scene.add(desk);
+    outpostGroup.add(desk);
 
     // Desk legs
     const legGeom = new THREE.CylinderGeometry(0.03, 0.03, 0.75, 8);
     [[-0.75, -0.2], [0.75, -0.2], [-0.75, -0.75], [0.75, -0.75]].forEach(function (pos) {
         const leg = new THREE.Mesh(legGeom, metalMat);
         leg.position.set(pos[0], 0.3, pos[1]);
-        scene.add(leg);
+        outpostGroup.add(leg);
     });
 
     // Side monitors (floating holographic screens)
@@ -126,20 +129,19 @@
     var holoScreen1 = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), holoMat);
     holoScreen1.position.set(-1.1, 1.0, -0.5);
     holoScreen1.rotation.y = 0.4;
-    scene.add(holoScreen1);
+    outpostGroup.add(holoScreen1);
 
     var holoScreen2 = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), holoMat.clone());
     holoScreen2.position.set(1.1, 1.0, -0.5);
     holoScreen2.rotation.y = -0.4;
-    scene.add(holoScreen2);
+    outpostGroup.add(holoScreen2);
 
-    // Holo screen borders (glowing lines)
     var holoBorderMat = new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.3 });
     [holoScreen1, holoScreen2].forEach(function (screen) {
         var border = new THREE.Mesh(new THREE.TorusGeometry(0.23, 0.005, 4, 4), holoBorderMat.clone());
         border.position.copy(screen.position);
         border.rotation.copy(screen.rotation);
-        scene.add(border);
+        outpostGroup.add(border);
     });
 
     // ===== LAPTOP =====
@@ -149,7 +151,7 @@
         new THREE.MeshStandardMaterial({ color: 0x18183a, metalness: 0.85, roughness: 0.15 })
     );
     laptopBase.position.set(0, 0.75, -0.4);
-    scene.add(laptopBase);
+    outpostGroup.add(laptopBase);
 
     // Screen (glowing)
     var screenMat = new THREE.MeshStandardMaterial({
@@ -158,19 +160,19 @@
     var laptopScreen = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.35, 0.012), screenMat);
     laptopScreen.position.set(0, 0.94, -0.58);
     laptopScreen.rotation.x = -0.12;
-    scene.add(laptopScreen);
+    outpostGroup.add(laptopScreen);
 
     // ===== CHAIR =====
     var chairMat = new THREE.MeshStandardMaterial({ color: 0x111128, metalness: 0.6, roughness: 0.4 });
     var chairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.04, 0.45), chairMat);
     chairSeat.position.set(0, 0.45, 0.35);
-    scene.add(chairSeat);
+    outpostGroup.add(chairSeat);
     var chairBack = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.5, 0.04), chairMat);
     chairBack.position.set(0, 0.72, 0.57);
-    scene.add(chairBack);
+    outpostGroup.add(chairBack);
     var chairPole = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.48, 8), metalMat);
     chairPole.position.set(0, 0.2, 0.35);
-    scene.add(chairPole);
+    outpostGroup.add(chairPole);
 
     // ===== DEVELOPER FIGURE (simple abstract) =====
     // Head
@@ -179,34 +181,164 @@
         new THREE.MeshStandardMaterial({ color: 0x2a2a48, metalness: 0.3, roughness: 0.6 })
     );
     devHead.position.set(0, 1.15, 0.35);
-    scene.add(devHead);
+    outpostGroup.add(devHead);
 
-    // Torso
     var devTorso = new THREE.Mesh(
         new THREE.BoxGeometry(0.28, 0.3, 0.15),
         new THREE.MeshStandardMaterial({ color: 0x1a1a38, metalness: 0.4, roughness: 0.5 })
     );
     devTorso.position.set(0, 0.88, 0.38);
-    scene.add(devTorso);
+    outpostGroup.add(devTorso);
 
-    // Arms reaching toward laptop
     var armMat = new THREE.MeshStandardMaterial({ color: 0x222244, metalness: 0.3, roughness: 0.5 });
     var leftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.025, 0.35, 8), armMat);
     leftArm.position.set(-0.18, 0.78, 0.05);
     leftArm.rotation.x = -0.8;
     leftArm.rotation.z = 0.2;
-    scene.add(leftArm);
+    outpostGroup.add(leftArm);
 
     var rightArm = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.025, 0.35, 8), armMat);
     rightArm.position.set(0.18, 0.78, 0.05);
     rightArm.rotation.x = -0.8;
     rightArm.rotation.z = -0.2;
-    scene.add(rightArm);
+    outpostGroup.add(rightArm);
+
+    // ===== CORNER STRUCTURES — ENERGY PYLONS =====
+    var pylonMat = new THREE.MeshStandardMaterial({ color: 0x0e0e28, metalness: 0.75, roughness: 0.3 });
+    var pylonGlowMat = new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.7 });
+    var pylons = [];
+
+    var pylonPositions = [
+        { x: 5.5, z: 5.5 },
+        { x: -5.5, z: 5.5 },
+        { x: 5.5, z: -5.5 },
+        { x: -5.5, z: -5.5 },
+    ];
+
+    pylonPositions.forEach(function (pos, i) {
+        // Pylon body
+        var pylonBody = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 2.5, 6), pylonMat);
+        pylonBody.position.set(pos.x, 0.75, pos.z);
+        outpostGroup.add(pylonBody);
+
+        // Pylon base ring
+        var pylonBase = new THREE.Mesh(
+            new THREE.TorusGeometry(0.3, 0.02, 8, 24),
+            new THREE.MeshBasicMaterial({ color: 0x2244aa, transparent: true, opacity: 0.2 })
+        );
+        pylonBase.rotation.x = -Math.PI / 2;
+        pylonBase.position.set(pos.x, -0.4, pos.z);
+        outpostGroup.add(pylonBase);
+
+        // Glowing tip
+        var tip = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), pylonGlowMat.clone());
+        tip.position.set(pos.x, 2.1, pos.z);
+        outpostGroup.add(tip);
+        pylons.push(tip);
+
+        // Energy beam going upward
+        var beamMat = new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.08 });
+        var beam = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.005, 4, 8), beamMat);
+        beam.position.set(pos.x, 4.1, pos.z);
+        outpostGroup.add(beam);
+        pylons.push(beam); // also tracked for animation
+    });
+
+    // ===== SATELLITE DISHES =====
+    var dishMat = new THREE.MeshStandardMaterial({ color: 0x151530, metalness: 0.7, roughness: 0.35 });
+
+    var dishPositions = [
+        { x: 4.5, z: 0, rotY: -Math.PI / 2 },
+        { x: -4.5, z: 0, rotY: Math.PI / 2 },
+        { x: 0, z: 5, rotY: Math.PI },
+        { x: 0, z: -5, rotY: 0 },
+    ];
+
+    dishPositions.forEach(function (pos) {
+        // Dish pole
+        var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.0, 8), pylonMat);
+        pole.position.set(pos.x, 0.1, pos.z);
+        outpostGroup.add(pole);
+
+        // Dish (half sphere flattened)
+        var dish = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), dishMat);
+        dish.position.set(pos.x, 0.65, pos.z);
+        dish.rotation.y = pos.rotY;
+        dish.rotation.x = -0.3;
+        outpostGroup.add(dish);
+
+        // Dish receiver dot
+        var receiver = new THREE.Mesh(
+            new THREE.SphereGeometry(0.03, 8, 8),
+            new THREE.MeshBasicMaterial({ color: 0x44aaff, transparent: true, opacity: 0.6 })
+        );
+        receiver.position.set(pos.x, 0.75, pos.z);
+        outpostGroup.add(receiver);
+    });
+
+    // ===== FLOATING DATA FRAGMENTS (wireframe shapes at corners) =====
+    var fragments = [];
+    var fragmentConfigs = [
+        { x: 6, y: 2.5, z: 3, geo: 'box', s: 0.2 },
+        { x: -6, y: 1.8, z: 4, geo: 'oct', s: 0.18 },
+        { x: 7, y: 3.2, z: -2, geo: 'tet', s: 0.22 },
+        { x: -7, y: 2.0, z: -3, geo: 'ico', s: 0.15 },
+        { x: 4, y: 3.8, z: 6, geo: 'box', s: 0.15 },
+        { x: -4, y: 2.6, z: -6, geo: 'oct', s: 0.2 },
+        { x: 6, y: 1.5, z: -6, geo: 'tet', s: 0.18 },
+        { x: -6, y: 3.0, z: -5, geo: 'ico', s: 0.16 },
+        { x: 3, y: 4.0, z: -7, geo: 'box', s: 0.12 },
+        { x: -3, y: 3.5, z: 7, geo: 'oct', s: 0.14 },
+        { x: 7, y: 2.8, z: 5, geo: 'tet', s: 0.2 },
+        { x: -7, y: 1.6, z: 2, geo: 'ico', s: 0.17 },
+    ];
+
+    fragmentConfigs.forEach(function (cfg, i) {
+        var geo;
+        switch (cfg.geo) {
+            case 'box': geo = new THREE.BoxGeometry(cfg.s, cfg.s, cfg.s); break;
+            case 'oct': geo = new THREE.OctahedronGeometry(cfg.s, 0); break;
+            case 'tet': geo = new THREE.TetrahedronGeometry(cfg.s, 0); break;
+            case 'ico': geo = new THREE.IcosahedronGeometry(cfg.s, 0); break;
+        }
+        var fragMat = new THREE.MeshBasicMaterial({
+            color: 0x4466aa, wireframe: true, transparent: true, opacity: 0.2 + Math.random() * 0.15,
+        });
+        var frag = new THREE.Mesh(geo, fragMat);
+        frag.position.set(cfg.x, cfg.y, cfg.z);
+        frag.userData = { baseY: cfg.y, speed: 0.3 + Math.random() * 0.4, phase: i * 0.7 };
+        outpostGroup.add(frag);
+        fragments.push(frag);
+    });
+
+    // ===== DISTANT TOWER SILHOUETTES =====
+    var towerMat = new THREE.MeshStandardMaterial({ color: 0x080818, metalness: 0.5, roughness: 0.6 });
+
+    var towerConfigs = [
+        { x: 12, z: 10, h: 4, r: 0.15 },
+        { x: -14, z: 8, h: 3, r: 0.12 },
+        { x: 10, z: -12, h: 5, r: 0.18 },
+        { x: -11, z: -10, h: 3.5, r: 0.14 },
+    ];
+
+    towerConfigs.forEach(function (cfg) {
+        var tower = new THREE.Mesh(new THREE.CylinderGeometry(cfg.r * 0.6, cfg.r, cfg.h, 6), towerMat);
+        tower.position.set(cfg.x, cfg.h / 2 - 0.5, cfg.z);
+        outpostGroup.add(tower);
+
+        // Tower tip light
+        var towerTip = new THREE.Mesh(
+            new THREE.SphereGeometry(0.04, 8, 8),
+            new THREE.MeshBasicMaterial({ color: 0x2244aa, transparent: true, opacity: 0.5 })
+        );
+        towerTip.position.set(cfg.x, cfg.h - 0.3, cfg.z);
+        outpostGroup.add(towerTip);
+    });
 
     // ===== HOLOGRAPHIC DATA ORBS =====
     var orbs = [];
     var orbGroup = new THREE.Group();
-    scene.add(orbGroup);
+    outpostGroup.add(orbGroup);
 
     var orbConfigs = [
         { color: 0x4488ff, r: 2.8, h: 1.8, speed: 0.18 },
@@ -278,7 +410,7 @@
     var screenLight = new THREE.PointLight(0x3355cc, 2, 6);
     screenLight.position.set(0, 1.2, -0.5);
     screenLight.castShadow = true;
-    scene.add(screenLight);
+    outpostGroup.add(screenLight);
 
     // Overhead starlight
     var overheadLight = new THREE.DirectionalLight(0x334477, 0.4);
@@ -310,6 +442,52 @@
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // ===== DRAG-TO-ROTATE =====
+    var isDragging = false;
+    var prevDragX = 0;
+    var dragVelocity = 0;
+    var friction = 0.95;
+
+    window.addEventListener('mousedown', function (e) {
+        // Don't drag if clicking on any interactive element (or its children like SVG icons)
+        if (e.target.closest('a, button, input, textarea, select, .btn, .skill-tag, .nav-link, .social-icon, .contact-link, .contact-btn, .contact-item, .project-github-link, .nav-logo')) return;
+        isDragging = true;
+        prevDragX = e.clientX;
+        dragVelocity = 0;
+    });
+
+    window.addEventListener('mousemove', function (e) {
+        if (!isDragging) return;
+        var deltaX = e.clientX - prevDragX;
+        dragVelocity = deltaX * 0.003;
+        outpostGroup.rotation.y += dragVelocity;
+        prevDragX = e.clientX;
+    });
+
+    window.addEventListener('mouseup', function () {
+        isDragging = false;
+    });
+
+    // Touch support
+    window.addEventListener('touchstart', function (e) {
+        if (e.target.closest('a, button, input, textarea, select, .btn, .skill-tag, .nav-link, .social-icon, .contact-link, .contact-btn, .contact-item, .project-github-link, .nav-logo')) return;
+        isDragging = true;
+        prevDragX = e.touches[0].clientX;
+        dragVelocity = 0;
+    }, { passive: true });
+
+    window.addEventListener('touchmove', function (e) {
+        if (!isDragging) return;
+        var deltaX = e.touches[0].clientX - prevDragX;
+        dragVelocity = deltaX * 0.003;
+        outpostGroup.rotation.y += dragVelocity;
+        prevDragX = e.touches[0].clientX;
+    }, { passive: true });
+
+    window.addEventListener('touchend', function () {
+        isDragging = false;
+    });
+
     // ===== ANIMATION LOOP =====
     function animate() {
         requestAnimationFrame(animate);
@@ -331,8 +509,25 @@
         innerRing.material.opacity = 0.2 + Math.sin(t * 1.2) * 0.08;
         outerRing.material.opacity = 0.12 + Math.sin(t * 0.8 + 1) * 0.05;
 
-        // Beacon pillars pulse
-        // (beacons handled via simple emissive — no per-frame needed)
+        // Energy pylon tips pulse
+        pylons.forEach(function (obj, i) {
+            if (obj.geometry.type === 'SphereGeometry') {
+                // Glowing tip
+                obj.material.opacity = 0.5 + Math.sin(t * 2 + i * 1.5) * 0.3;
+                obj.scale.setScalar(0.9 + Math.sin(t * 3 + i) * 0.2);
+            } else {
+                // Energy beam
+                obj.material.opacity = 0.05 + Math.sin(t * 1.5 + i * 0.8) * 0.04;
+            }
+        });
+
+        // Data fragments float and spin
+        fragments.forEach(function (frag) {
+            var d = frag.userData;
+            frag.position.y = d.baseY + Math.sin(t * d.speed + d.phase) * 0.3;
+            frag.rotation.x = t * 0.4 + d.phase;
+            frag.rotation.y = t * 0.6 + d.phase * 0.5;
+        });
 
         // Holographic screens flicker
         holoScreen1.material.opacity = 0.12 + Math.sin(t * 3.5) * 0.04;
@@ -387,6 +582,12 @@
         // Laptop screen glow pulse
         screenLight.intensity = 2 + Math.sin(t * 1.5) * 0.4;
         screenMat.emissiveIntensity = 1.2 + Math.sin(t * 1.5) * 0.3;
+
+        // Drag inertia — keep spinning after release
+        if (!isDragging) {
+            dragVelocity *= friction;
+            outpostGroup.rotation.y += dragVelocity;
+        }
 
         renderer.render(scene, camera);
     }

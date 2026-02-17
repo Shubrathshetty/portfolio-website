@@ -97,3 +97,15 @@ window.addEventListener('scroll', () => {
     });
 });
 
+
+// ===== Mailto link handler (Gmail compose fallback) =====
+document.addEventListener('click', function (e) {
+    const target = e.target.closest('a[href^="mailto:"]');
+    if (target) {
+        e.preventDefault();
+        const email = target.getAttribute('href').replace('mailto:', '');
+        const gmailComposeUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}`;
+        window.open(gmailComposeUrl, '_blank');
+    }
+});
+
