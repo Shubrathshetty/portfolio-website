@@ -1,32 +1,5 @@
-// ===== Theme Toggle =====
-const themeToggle = document.getElementById('themeToggle');
-const themeToggleMobile = document.getElementById('themeToggleMobile');
-const html = document.documentElement;
-
-function getStoredTheme() {
-    return localStorage.getItem('theme');
-}
-
-function getSystemTheme() {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-}
-
-function setTheme(theme) {
-    html.setAttribute('data-theme', theme);
-    localStorage.setItem('theme', theme);
-}
-
-function toggleTheme() {
-    const current = html.getAttribute('data-theme');
-    setTheme(current === 'light' ? 'dark' : 'light');
-}
-
-// Initialize theme
-const savedTheme = getStoredTheme();
-setTheme(savedTheme || getSystemTheme());
-
-themeToggle.addEventListener('click', toggleTheme);
-themeToggleMobile.addEventListener('click', toggleTheme);
+// ===== Dark Theme (permanent) =====
+document.documentElement.setAttribute('data-theme', 'dark');
 
 // ===== Mobile Menu =====
 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
