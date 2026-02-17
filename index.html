@@ -12,11 +12,20 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
+  <!-- Three.js CDN -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+    }
+  }
+  </script>
 </head>
 
 <body>
-  <!-- Particle Canvas Background -->
-  <canvas id="particleCanvas"></canvas>
+  <!-- Three.js 3D Background -->
+  <canvas id="threeBgCanvas"></canvas>
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="container nav-container">
@@ -389,6 +398,7 @@
   </footer>
 
   <script src="script.js"></script>
+  <script type="module" src="three-scene.js"></script>
 </body>
 
 </html>

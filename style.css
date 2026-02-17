@@ -1,49 +1,28 @@
 /* ===== CSS Variables & Theme ===== */
 :root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f5f5f5;
-    --bg-card: #ffffff;
-    --bg-card-hover: #fafafa;
-    --text-primary: #000000;
-    --text-secondary: #000000;
-    --text-muted: #000000;
-    --accent: #000000;
-    --accent-hover: #333333;
-    --accent-light: rgba(0, 0, 0, 0.06);
-    --accent-glow: rgba(0, 0, 0, 0.05);
-    --gradient-start: #000000;
-    --gradient-end: #000000;
-    --border: #e0e0e0;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
-    --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
-    --shadow-xl: 0 20px 45px -12px rgba(0, 0, 0, 0.12);
+    --bg-primary: #030308;
+    --bg-secondary: #080812;
+    --bg-card: #0e0e1e;
+    --bg-card-hover: #161630;
+    --text-primary: #e8e8f0;
+    --text-secondary: #c0c0d0;
+    --text-muted: #9090a8;
+    --accent: #ffffff;
+    --accent-hover: #ccccdd;
+    --accent-light: rgba(100, 130, 255, 0.08);
+    --accent-glow: rgba(80, 120, 255, 0.06);
+    --gradient-start: #ffffff;
+    --gradient-end: #8899cc;
+    --border: #1a1a35;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.6);
+    --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.7);
     --nav-height: 72px;
     --radius: 12px;
     --radius-sm: 8px;
     --max-width: 1140px;
     --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-[data-theme="dark"] {
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #141414;
-    --bg-card: #1a1a1a;
-    --bg-card-hover: #222222;
-    --text-primary: #ffffff;
-    --text-secondary: #ffffff;
-    --text-muted: #ffffff;
-    --accent: #ffffff;
-    --accent-hover: #cccccc;
-    --accent-light: rgba(255, 255, 255, 0.08);
-    --accent-glow: rgba(255, 255, 255, 0.06);
-    --gradient-start: #ffffff;
-    --gradient-end: #ffffff;
-    --border: #2a2a2a;
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.35);
-    --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.4);
-    --shadow-xl: 0 20px 45px rgba(0, 0, 0, 0.5);
 }
 
 /* ===== Reset & Base ===== */
@@ -69,7 +48,7 @@ body {
     overflow-x: hidden;
 }
 
-#particleCanvas {
+#threeBgCanvas {
     position: fixed;
     top: 0;
     left: 0;
@@ -1046,17 +1025,19 @@ img {
     }
 }
 
-/* Dark mode glass cards */
-[data-theme="dark"] .skill-category,
-[data-theme="dark"] .project-card,
-[data-theme="dark"] .achievement-card,
-[data-theme="dark"] .education-card,
-[data-theme="dark"] .contact-content {
-    background: rgba(26, 26, 26, 0.75);
+/* Glass cards */
+.skill-category,
+.project-card,
+.achievement-card,
+.education-card,
+.contact-content {
+    background: rgba(10, 10, 30, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
 }
 
-[data-theme="dark"] .skill-category:hover,
-[data-theme="dark"] .project-card:hover,
-[data-theme="dark"] .achievement-card:hover {
-    background: rgba(34, 34, 34, 0.85);
+.skill-category:hover,
+.project-card:hover,
+.achievement-card:hover {
+    background: rgba(20, 20, 50, 0.8);
 }
