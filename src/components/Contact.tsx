@@ -1,4 +1,4 @@
-import React from 'react';
+import MailtoLink from './MailtoLink';
 
 const Contact = () => {
     return (
@@ -14,7 +14,9 @@ const Contact = () => {
                     <div className="contact-details">
                         <div className="contact-item">
                             <span className="contact-label">Email:</span>
-                            <a href="mailto:subrathshetty2k06@gmail.com" className="contact-link">subrathshetty2k06@gmail.com</a>
+                            <MailtoLink email="subrathshetty2k06@gmail.com" className="contact-link">
+                                subrathshetty2k06@gmail.com
+                            </MailtoLink>
                         </div>
                         <div className="contact-item">
                             <span className="contact-label">Phone:</span>
@@ -26,9 +28,9 @@ const Contact = () => {
                         </div>
                     </div>
 
-                    <a href="mailto:subrathshetty2k06@gmail.com" className="btn btn-primary contact-btn">
+                    <MailtoLink email="subrathshetty2k06@gmail.com" className="btn btn-primary contact-btn">
                         Say Hello
-                    </a>
+                    </MailtoLink>
                 </div>
             </div>
         </section>

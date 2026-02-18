@@ -1,4 +1,5 @@
 import React from 'react';
+import MailtoLink from './MailtoLink';
 
 const Footer = () => {
     const currentYear = new Date().getFullYear();
@@ -13,9 +14,9 @@ const Footer = () => {
                     <a href="https://www.linkedin.com/in/shubrath-shetty-014019330/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                         LinkedIn
                     </a>
-                    <a href="mailto:subrathshetty2k06@gmail.com" aria-label="Email">
+                    <MailtoLink email="subrathshetty2k06@gmail.com" aria-label="Email">
                         Email
-                    </a>
+                    </MailtoLink>
                 </div>
                 <p className="footer-copyright">
                     © {currentYear} Shubrath Shetty. All rights reserved.

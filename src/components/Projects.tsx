@@ -5,7 +5,7 @@ const Projects = () => {
     const projects = [
         {
             title: 'Organex',
-            description: 'An organ donation management system built to streamline the donation process.',
+            description: 'An Event Management System for creating events .',
             tech: ['Laravel', 'Blade', 'PHP'],
             github: 'https://github.com/Shubrathshetty/organex',
             link: null, // No demo link provided
