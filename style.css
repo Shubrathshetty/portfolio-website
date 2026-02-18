@@ -518,10 +518,17 @@ img {
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.skill-item i,
-.skill-item svg.colored-svg {
+.skill-item i {
     font-size: 3.5rem;
-    /* Large icon size */
+    display: inline-block;
+    transition: transform var(--transition);
+}
+
+.skill-item svg.colored-svg,
+.skill-item img {
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: contain;
     transition: transform var(--transition);
 }
 
@@ -570,18 +577,37 @@ img {
 }
 
 .skill-tag.soft {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    padding: 8px 16px;
+    background: rgba(100, 130, 255, 0.1);
+    color: var(--text-primary);
+    border: none;
+    /* Border clipped by clip-path, so remove it */
+    border-radius: 0;
+    padding: 10px 24px;
     font-size: 0.95rem;
+    position: relative;
+    clip-path: polygon(12px 0, 100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px);
+    transition: all var(--transition);
 }
 
 .skill-tag.soft:hover {
     background: var(--accent);
     color: var(--bg-primary);
-    border-color: var(--accent);
     transform: translateY(-2px);
+    clip-path: polygon(0 0, 100% 0,
+            100% 100%,
+            0 100%,
+            0 0);
+    /* Revert to rectangle on hover for effect? Or keep cut? Keeping cut is safer. */
+    clip-path: polygon(12px 0, 100% 0,
+            100% calc(100% - 12px),
+            calc(100% - 12px) 100%,
+            0 100%,
+            0 12px);
+    box-shadow: 0 5px 15px rgba(100, 130, 255, 0.4);
 }
 
 /* ===== Projects ===== */
