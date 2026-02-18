@@ -478,89 +478,110 @@ img {
     background: transparent;
 }
 
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+.skills-grid-horizontal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
+    margin-bottom: 64px;
 }
 
-.skill-category {
-    background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+.skill-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius);
+    min-width: 120px;
+    width: 140px;
+    text-align: center;
+    transition: all var(--transition);
+    animation: fadeInUp 0.5s ease backwards;
+}
+
+/* Stagger animation for items */
+.skill-item:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.skill-item:nth-child(odd) {
+    animation-delay: 0.2s;
+}
+
+.skill-item:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.skill-item i,
+.skill-item svg.colored-svg {
+    font-size: 3.5rem;
+    /* Large icon size */
+    transition: transform var(--transition);
+}
+
+.skill-item svg.colored-svg {
+    stroke: var(--accent);
+    /* Fallback color for SVGs */
+}
+
+/* Specific colors for SVGs if wanted, but accent is fine */
+
+.skill-item:hover i,
+.skill-item:hover svg,
+.skill-item:hover img {
+    transform: scale(1.1);
+}
+
+.skill-item span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+/* Soft Skills */
+.soft-skills-container {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    background: rgba(255, 255, 255, 0.02);
     padding: 32px;
     border-radius: var(--radius);
-    border: 1px solid var(--border);
-    transition: all var(--transition);
-    opacity: 0;
-    transform: translateY(30px);
+    border-top: 1px solid var(--border);
 }
 
-.skill-category.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.skill-category:hover {
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--accent);
-    background: var(--bg-card-hover);
-}
-
-.skill-icon {
-    font-size: 2rem;
-    margin-bottom: 16px;
-}
-
-.skill-category-title {
+.soft-skills-title {
     font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     color: var(--text-primary);
 }
 
-.skill-tags {
+.soft-skills-tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
-}
-
-.skill-tag {
-    background: var(--accent-light);
-    color: var(--accent);
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border: 1px solid transparent;
-    transition: all var(--transition);
-}
-
-.skill-tag:hover {
-    background: var(--accent);
-    color: white;
-    transform: scale(1.05);
+    justify-content: center;
+    gap: 12px;
 }
 
 .skill-tag.soft {
-    background: var(--accent-light);
-    color: var(--accent);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    font-size: 0.95rem;
 }
 
 .skill-tag.soft:hover {
     background: var(--accent);
     color: var(--bg-primary);
-}
-
-.soft-skills-card {
-    grid-column: 1 / -1;
-}
-
-@media (min-width: 900px) {
-    .soft-skills-card {
-        grid-column: auto;
-    }
+    border-color: var(--accent);
+    transform: translateY(-2px);
 }
 
 /* ===== Projects ===== */

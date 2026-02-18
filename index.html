@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -86,64 +87,128 @@
   <!-- Skills Section -->
   <section id="skills" class="section skills-section">
     <div class="container">
-      <h2 class="section-title">Skills & Technologies</h2>
-      <div class="skills-grid">
-        <div class="skill-category" data-animate>
-          <div class="skill-icon"></div>
-          <h3 class="skill-category-title">Languages</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Java</span>
-            <span class="skill-tag">C</span>
-            <span class="skill-tag">C++</span>
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">TypeScript</span>
-            <span class="skill-tag">SQL</span>
-          </div>
+      <h2 class="section-title">Tools & Technologies</h2>
+
+      <div class="skills-grid-horizontal">
+        <!-- Languages -->
+        <div class="skill-item">
+          <i class="devicon-java-plain colored"></i>
+          <span>Java</span>
         </div>
-        <div class="skill-category" data-animate>
-          <div class="skill-icon"></div>
-          <h3 class="skill-category-title">Frameworks</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Next.js</span>
-            <span class="skill-tag">React</span>
-            <span class="skill-tag">Laravel</span>
-            <span class="skill-tag">FastAPI</span>
-          </div>
+        <div class="skill-item">
+          <i class="devicon-c-plain colored"></i>
+          <span>C</span>
         </div>
-        <div class="skill-category" data-animate>
-          <div class="skill-icon"></div>
-          <h3 class="skill-category-title">Databases</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">MySQL</span>
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">Supabase</span>
-            <span class="skill-tag">Firebase</span>
-          </div>
+        <div class="skill-item">
+          <i class="devicon-cplusplus-plain colored"></i>
+          <span>C++</span>
         </div>
-        <div class="skill-category" data-animate>
-          <div class="skill-icon"></div>
-          <h3 class="skill-category-title">Tools</h3>
-          <div class="skill-tags">
-            <span class="skill-tag">Docker</span>
-            <span class="skill-tag">GitHub</span>
-            <span class="skill-tag">VS Code</span>
-            <span class="skill-tag">IntelliJ IDEA</span>
-            <span class="skill-tag">Eclipse</span>
-            <span class="skill-tag">Cisco Packet Tracer</span>
-            <span class="skill-tag">Power BI</span>
-          </div>
+        <div class="skill-item">
+          <i class="devicon-python-plain colored"></i>
+          <span>Python</span>
         </div>
-        <div class="skill-category soft-skills-card" data-animate>
-          <div class="skill-icon"></div>
-          <h3 class="skill-category-title">Soft Skills</h3>
-          <div class="skill-tags">
-            <span class="skill-tag soft">Time Management</span>
-            <span class="skill-tag soft">Adaptability</span>
-            <span class="skill-tag soft">Problem Solving</span>
-            <span class="skill-tag soft">Active Listening</span>
-            <span class="skill-tag soft">Communication</span>
-            <span class="skill-tag soft">Teamwork</span>
-          </div>
+        <div class="skill-item">
+          <i class="devicon-typescript-plain colored"></i>
+          <span>TypeScript</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-mysql-plain colored"></i>
+          <span>SQL</span>
+        </div>
+
+        <!-- Frameworks -->
+        <div class="skill-item">
+          <i class="devicon-nextjs-original-wordmark colored"></i> <!-- fallback if wordmark missing -->
+          <span>Next.js</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-react-original colored"></i>
+          <span>React</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-laravel-original colored"></i>
+          <span>Laravel</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-fastapi-plain colored"></i>
+          <span>FastAPI</span>
+        </div>
+
+        <!-- Databases -->
+        <div class="skill-item">
+          <i class="devicon-mysql-plain colored"></i>
+          <span>MySQL</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-postgresql-plain colored"></i>
+          <span>PostgreSQL</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-supabase-plain colored"></i>
+          <span>Supabase</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-firebase-plain colored"></i>
+          <span>Firebase</span>
+        </div>
+
+        <!-- Tools -->
+        <div class="skill-item">
+          <i class="devicon-docker-plain colored"></i>
+          <span>Docker</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-github-original colored"></i>
+          <span>GitHub</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-vscode-plain colored"></i>
+          <span>VS Code</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-intellij-plain colored"></i>
+          <span>IntelliJ</span>
+        </div>
+        <div class="skill-item">
+          <i class="devicon-eclipse-plain colored"></i>
+          <span>Eclipse</span>
+        </div>
+
+        <!-- Misc Tools without standard icons -->
+        <div class="skill-item">
+          <!-- Generic Network Icon for Cisco -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="colored-svg">
+            <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+            <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+            <line x1="6" y1="6" x2="6" y2="6"></line>
+            <line x1="6" y1="18" x2="6" y2="18"></line>
+          </svg>
+          <span>Packet Tracer</span>
+        </div>
+        <div class="skill-item">
+          <!-- Generic Chart Icon for Power BI -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="colored-svg">
+            <path d="M3 3v18h18" />
+            <path d="M18 17V9" />
+            <path d="M13 17V5" />
+            <path d="M8 17v-3" />
+          </svg>
+          <span>Power BI</span>
+        </div>
+      </div>
+
+      <!-- Soft Skills Grid -->
+      <div class="soft-skills-container">
+        <h3 class="soft-skills-title">Soft Skills</h3>
+        <div class="soft-skills-tags">
+          <span class="skill-tag soft">Time Management</span>
+          <span class="skill-tag soft">Adaptability</span>
+          <span class="skill-tag soft">Problem Solving</span>
+          <span class="skill-tag soft">Active Listening</span>
+          <span class="skill-tag soft">Communication</span>
+          <span class="skill-tag soft">Teamwork</span>
         </div>
       </div>
     </div>
