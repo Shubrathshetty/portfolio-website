@@ -192,7 +192,7 @@ Copyright (c) 2026 Shubrath Shetty
 
 <div align="center">
 
-**Designed & Built with ❤️ by [Shubrath Shetty](https://github.com/Shubrathshetty)**
+**Designed & Built by [Shubrath Shetty](https://github.com/Shubrathshetty)**
 
 *© 2026 All rights reserved.*
 
