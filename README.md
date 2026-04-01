@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🚀 Shubrath Shetty — Portfolio Website
+# 🚀 Shubrath's — Portfolio Website
 
 **A modern, immersive personal portfolio with a 3D sci-fi background — built with vanilla HTML, CSS, JavaScript & Three.js.**
 
