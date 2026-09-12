@@ -1,592 +1,237 @@
-// ===== Three.js 3D Sci-Fi Outpost Background =====
-// Uses global THREE from CDN (no ES module imports)
+// ===== DevOps / CI/CD Cloud Pipeline 3D Background =====
+// Replaces the generic sci-fi outpost with an interactive cloud topology,
+// container cluster nodes, and pulsing CI/CD data packets flowing along pipelines.
 
 (function () {
     const canvas = document.getElementById('threeBgCanvas');
     if (!canvas || typeof THREE === 'undefined') return;
 
-    // ===== Scene Setup =====
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x030308, 0.025);
+    // Check user preference for reduced motion
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true });
+    // ===== Scene & Renderer Setup =====
+    const scene = new THREE.Scene();
+    const bgColor = 0x09090b; // shadcn Zinc dark background
+    scene.background = new THREE.Color(bgColor);
+    scene.fog = new THREE.FogExp2(bgColor, 0.022);
+
+    const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+    camera.position.set(0, 8, 22);
+    camera.lookAt(0, 0, 0);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: false, antialias: true, powerPreference: 'high-performance' });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setClearColor(0x030308);
-    renderer.shadowMap.enabled = true;
-    renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    renderer.setClearColor(bgColor);
 
-    camera.position.set(0, 3.5, 9);
-    camera.lookAt(0, 1.2, 0);
+    // ===== Interactive Mouse Parallax =====
+    const mouse = { x: 0, y: 0, targetX: 0, targetY: 0 };
+    window.addEventListener('mousemove', (e) => {
+        mouse.targetX = (e.clientX / window.innerWidth - 0.5) * 2;
+        mouse.targetY = (e.clientY / window.innerHeight - 0.5) * 2;
+    }, { passive: true });
 
-    const mouse = { x: 0, y: 0 };
-    const targetMouse = { x: 0, y: 0 };
-    const clock = new THREE.Clock();
-    const raycaster = new THREE.Raycaster();
-    const mouseVec = new THREE.Vector2(-999, -999);
+    // ===== TOPOLOGY / CLOUD ARCHITECTURE NODES =====
+    const pipelineGroup = new THREE.Group();
+    scene.add(pipelineGroup);
 
-    // ===== STAR DOME (vast starry sky overhead) =====
-    const starCount = 5000;
-    const starPos = new Float32Array(starCount * 3);
-    for (let i = 0; i < starCount; i++) {
-        const theta = Math.random() * Math.PI * 2;
-        const phi = Math.acos(2 * Math.random() - 1);
-        const r = 60 + Math.random() * 60;
-        starPos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
-        starPos[i * 3 + 1] = Math.abs(r * Math.sin(phi) * Math.sin(theta));
-        starPos[i * 3 + 2] = r * Math.cos(phi);
-    }
-    const starGeom = new THREE.BufferGeometry();
-    starGeom.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-    const stars = new THREE.Points(starGeom, new THREE.PointsMaterial({
-        color: 0xffffff, size: 0.12, transparent: true, opacity: 0.75, sizeAttenuation: true,
-    }));
-    scene.add(stars);
+    // Grid Floor representing Server Rack / Datacenter mesh
+    const grid = new THREE.GridHelper(60, 40, 0x27272a, 0x141417);
+    grid.position.y = -3.5;
+    pipelineGroup.add(grid);
 
-    // ===== OUTPOST GROUP (drag-to-rotate) =====
-    var outpostGroup = new THREE.Group();
-    scene.add(outpostGroup);
+    // Colors: Emerald (healthy/success), Cyan (traffic/docker), Slate/Muted (infra border)
+    const EMERALD = 0x10b981;
+    const CYAN = 0x06b6d4;
+    const NODE_BORDER = 0x27272a;
 
-    // ===== GROUND — distant planet surface =====
-    var gridHelper = new THREE.GridHelper(80, 80, 0x111128, 0x0a0a18);
-    gridHelper.position.y = -0.5;
-    scene.add(gridHelper);
-
-    var ground = new THREE.Mesh(
-        new THREE.PlaneGeometry(80, 80),
-        new THREE.MeshStandardMaterial({ color: 0x060610, roughness: 0.95, metalness: 0.1 })
-    );
-    ground.rotation.x = -Math.PI / 2;
-    ground.position.y = -0.51;
-    ground.receiveShadow = true;
-    scene.add(ground);
-
-    // ===== OUTPOST PLATFORM =====
-    const platMat = new THREE.MeshStandardMaterial({ color: 0x12122a, metalness: 0.7, roughness: 0.3 });
-
-    // Main hexagonal platform
-    var platform = new THREE.Mesh(new THREE.CylinderGeometry(3.2, 3.5, 0.15, 6), platMat);
-    platform.position.set(0, -0.35, 0);
-    platform.receiveShadow = true;
-    outpostGroup.add(platform);
-
-    // Glowing inner ring
-    const innerRing = new THREE.Mesh(
-        new THREE.TorusGeometry(2.2, 0.04, 8, 48),
-        new THREE.MeshBasicMaterial({ color: 0x2244aa, transparent: true, opacity: 0.25 })
-    );
-    innerRing.rotation.x = -Math.PI / 2;
-    innerRing.position.y = -0.26;
-    outpostGroup.add(innerRing);
-
-    // Outer accent ring
-    const outerRing = new THREE.Mesh(
-        new THREE.TorusGeometry(3.3, 0.02, 8, 64),
-        new THREE.MeshBasicMaterial({ color: 0x1a2255, transparent: true, opacity: 0.15 })
-    );
-    outerRing.rotation.x = -Math.PI / 2;
-    outerRing.position.y = -0.27;
-    outpostGroup.add(outerRing);
-
-    // Support pillars at platform edges
-    const pillarMat = new THREE.MeshStandardMaterial({ color: 0x0e0e25, metalness: 0.8, roughness: 0.3 });
-    for (let i = 0; i < 6; i++) {
-        const angle = (i / 6) * Math.PI * 2;
-        const pillar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 6), pillarMat);
-        pillar.position.set(Math.cos(angle) * 3.1, 0.25, Math.sin(angle) * 3.1);
-        outpostGroup.add(pillar);
-
-        const beacon = new THREE.Mesh(
-            new THREE.SphereGeometry(0.04, 8, 8),
-            new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.6 })
-        );
-        beacon.position.set(Math.cos(angle) * 3.1, 0.85, Math.sin(angle) * 3.1);
-        outpostGroup.add(beacon);
-    }
-
-    // ===== MODULAR WORKSTATION =====
-    const metalMat = new THREE.MeshStandardMaterial({ color: 0x1a1a35, metalness: 0.8, roughness: 0.25 });
-
-    // Desk
-    const desk = new THREE.Mesh(new THREE.BoxGeometry(1.8, 0.06, 0.8), metalMat);
-    desk.position.set(0, 0.7, -0.4);
-    desk.castShadow = true;
-    outpostGroup.add(desk);
-
-    // Desk legs
-    const legGeom = new THREE.CylinderGeometry(0.03, 0.03, 0.75, 8);
-    [[-0.75, -0.2], [0.75, -0.2], [-0.75, -0.75], [0.75, -0.75]].forEach(function (pos) {
-        const leg = new THREE.Mesh(legGeom, metalMat);
-        leg.position.set(pos[0], 0.3, pos[1]);
-        outpostGroup.add(leg);
-    });
-
-    // Side monitors (floating holographic screens)
-    var holoMat = new THREE.MeshBasicMaterial({
-        color: 0x1a3366, transparent: true, opacity: 0.15, side: THREE.DoubleSide,
-    });
-    var holoScreen1 = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), holoMat);
-    holoScreen1.position.set(-1.1, 1.0, -0.5);
-    holoScreen1.rotation.y = 0.4;
-    outpostGroup.add(holoScreen1);
-
-    var holoScreen2 = new THREE.Mesh(new THREE.PlaneGeometry(0.5, 0.35), holoMat.clone());
-    holoScreen2.position.set(1.1, 1.0, -0.5);
-    holoScreen2.rotation.y = -0.4;
-    outpostGroup.add(holoScreen2);
-
-    var holoBorderMat = new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.3 });
-    [holoScreen1, holoScreen2].forEach(function (screen) {
-        var border = new THREE.Mesh(new THREE.TorusGeometry(0.23, 0.005, 4, 4), holoBorderMat.clone());
-        border.position.copy(screen.position);
-        border.rotation.copy(screen.rotation);
-        outpostGroup.add(border);
-    });
-
-    // ===== LAPTOP =====
-    // Base
-    var laptopBase = new THREE.Mesh(
-        new THREE.BoxGeometry(0.55, 0.025, 0.35),
-        new THREE.MeshStandardMaterial({ color: 0x18183a, metalness: 0.85, roughness: 0.15 })
-    );
-    laptopBase.position.set(0, 0.75, -0.4);
-    outpostGroup.add(laptopBase);
-
-    // Screen (glowing)
-    var screenMat = new THREE.MeshStandardMaterial({
-        color: 0x0a1530, emissive: 0x1a3060, emissiveIntensity: 1.2, metalness: 0.4, roughness: 0.3,
-    });
-    var laptopScreen = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.35, 0.012), screenMat);
-    laptopScreen.position.set(0, 0.94, -0.58);
-    laptopScreen.rotation.x = -0.12;
-    outpostGroup.add(laptopScreen);
-
-    // ===== CHAIR =====
-    var chairMat = new THREE.MeshStandardMaterial({ color: 0x111128, metalness: 0.6, roughness: 0.4 });
-    var chairSeat = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.04, 0.45), chairMat);
-    chairSeat.position.set(0, 0.45, 0.35);
-    outpostGroup.add(chairSeat);
-    var chairBack = new THREE.Mesh(new THREE.BoxGeometry(0.45, 0.5, 0.04), chairMat);
-    chairBack.position.set(0, 0.72, 0.57);
-    outpostGroup.add(chairBack);
-    var chairPole = new THREE.Mesh(new THREE.CylinderGeometry(0.025, 0.025, 0.48, 8), metalMat);
-    chairPole.position.set(0, 0.2, 0.35);
-    outpostGroup.add(chairPole);
-
-    // ===== DEVELOPER FIGURE (simple abstract) =====
-    // Head
-    var devHead = new THREE.Mesh(
-        new THREE.SphereGeometry(0.12, 16, 16),
-        new THREE.MeshStandardMaterial({ color: 0x2a2a48, metalness: 0.3, roughness: 0.6 })
-    );
-    devHead.position.set(0, 1.15, 0.35);
-    outpostGroup.add(devHead);
-
-    var devTorso = new THREE.Mesh(
-        new THREE.BoxGeometry(0.28, 0.3, 0.15),
-        new THREE.MeshStandardMaterial({ color: 0x1a1a38, metalness: 0.4, roughness: 0.5 })
-    );
-    devTorso.position.set(0, 0.88, 0.38);
-    outpostGroup.add(devTorso);
-
-    var armMat = new THREE.MeshStandardMaterial({ color: 0x222244, metalness: 0.3, roughness: 0.5 });
-    var leftArm = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.025, 0.35, 8), armMat);
-    leftArm.position.set(-0.18, 0.78, 0.05);
-    leftArm.rotation.x = -0.8;
-    leftArm.rotation.z = 0.2;
-    outpostGroup.add(leftArm);
-
-    var rightArm = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.025, 0.35, 8), armMat);
-    rightArm.position.set(0.18, 0.78, 0.05);
-    rightArm.rotation.x = -0.8;
-    rightArm.rotation.z = -0.2;
-    outpostGroup.add(rightArm);
-
-    // ===== CORNER STRUCTURES — ENERGY PYLONS =====
-    var pylonMat = new THREE.MeshStandardMaterial({ color: 0x0e0e28, metalness: 0.75, roughness: 0.3 });
-    var pylonGlowMat = new THREE.MeshBasicMaterial({ color: 0x4488ff, transparent: true, opacity: 0.7 });
-    var pylons = [];
-
-    var pylonPositions = [
-        { x: 5.5, z: 5.5 },
-        { x: -5.5, z: 5.5 },
-        { x: 5.5, z: -5.5 },
-        { x: -5.5, z: -5.5 },
+    // Node definitions representing a CI/CD Pipeline & Kubernetes Cluster:
+    // [Source Code] -> [Build / CI Runner] -> [Container Registry] -> [K8s Cluster Nodes] -> [API Gateway / Prod]
+    const nodeCoords = [
+        { x: -14, y: 1.5, z: 0, name: 'Git Repo / Webhook', color: CYAN, size: 0.9 },
+        { x: -7,  y: 3.0, z: -3, name: 'CI Build Runner', color: EMERALD, size: 1.1 },
+        { x: -7,  y: -0.5, z: 2, name: 'Test & Lint Worker', color: CYAN, size: 0.85 },
+        { x: 0,   y: 1.2, z: 0, name: 'Container Registry / Docker', color: EMERALD, size: 1.3 },
+        { x: 7,   y: 3.5, z: -2, name: 'K8s Ingress Controller', color: CYAN, size: 1.0 },
+        { x: 7,   y: -1.0, z: 3, name: 'Pod Replica / Worker', color: EMERALD, size: 0.9 },
+        { x: 14,  y: 1.5, z: 0, name: 'Production / High Availability', color: EMERALD, size: 1.2 }
     ];
 
-    pylonPositions.forEach(function (pos, i) {
-        // Pylon body
-        var pylonBody = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.12, 2.5, 6), pylonMat);
-        pylonBody.position.set(pos.x, 0.75, pos.z);
-        outpostGroup.add(pylonBody);
+    const nodeMeshes = [];
+    const nodeGeom = new THREE.IcosahedronGeometry(1, 1);
+    const wireGeom = new THREE.IcosahedronGeometry(1.2, 1);
 
-        // Pylon base ring
-        var pylonBase = new THREE.Mesh(
-            new THREE.TorusGeometry(0.3, 0.02, 8, 24),
-            new THREE.MeshBasicMaterial({ color: 0x2244aa, transparent: true, opacity: 0.2 })
-        );
-        pylonBase.rotation.x = -Math.PI / 2;
-        pylonBase.position.set(pos.x, -0.4, pos.z);
-        outpostGroup.add(pylonBase);
+    nodeCoords.forEach((n) => {
+        const nodeSubGroup = new THREE.Group();
+        nodeSubGroup.position.set(n.x, n.y, n.z);
 
-        // Glowing tip
-        var tip = new THREE.Mesh(new THREE.SphereGeometry(0.08, 12, 12), pylonGlowMat.clone());
-        tip.position.set(pos.x, 2.1, pos.z);
-        outpostGroup.add(tip);
-        pylons.push(tip);
-
-        // Energy beam going upward
-        var beamMat = new THREE.MeshBasicMaterial({ color: 0x3366ff, transparent: true, opacity: 0.08 });
-        var beam = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.005, 4, 8), beamMat);
-        beam.position.set(pos.x, 4.1, pos.z);
-        outpostGroup.add(beam);
-        pylons.push(beam); // also tracked for animation
-    });
-
-    // ===== SATELLITE DISHES =====
-    var dishMat = new THREE.MeshStandardMaterial({ color: 0x151530, metalness: 0.7, roughness: 0.35 });
-
-    var dishPositions = [
-        { x: 4.5, z: 0, rotY: -Math.PI / 2 },
-        { x: -4.5, z: 0, rotY: Math.PI / 2 },
-        { x: 0, z: 5, rotY: Math.PI },
-        { x: 0, z: -5, rotY: 0 },
-    ];
-
-    dishPositions.forEach(function (pos) {
-        // Dish pole
-        var pole = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 1.0, 8), pylonMat);
-        pole.position.set(pos.x, 0.1, pos.z);
-        outpostGroup.add(pole);
-
-        // Dish (half sphere flattened)
-        var dish = new THREE.Mesh(new THREE.SphereGeometry(0.25, 16, 8, 0, Math.PI * 2, 0, Math.PI / 2), dishMat);
-        dish.position.set(pos.x, 0.65, pos.z);
-        dish.rotation.y = pos.rotY;
-        dish.rotation.x = -0.3;
-        outpostGroup.add(dish);
-
-        // Dish receiver dot
-        var receiver = new THREE.Mesh(
-            new THREE.SphereGeometry(0.03, 8, 8),
-            new THREE.MeshBasicMaterial({ color: 0x44aaff, transparent: true, opacity: 0.6 })
-        );
-        receiver.position.set(pos.x, 0.75, pos.z);
-        outpostGroup.add(receiver);
-    });
-
-    // ===== FLOATING DATA FRAGMENTS (wireframe shapes at corners) =====
-    var fragments = [];
-    var fragmentConfigs = [
-        { x: 6, y: 2.5, z: 3, geo: 'box', s: 0.2 },
-        { x: -6, y: 1.8, z: 4, geo: 'oct', s: 0.18 },
-        { x: 7, y: 3.2, z: -2, geo: 'tet', s: 0.22 },
-        { x: -7, y: 2.0, z: -3, geo: 'ico', s: 0.15 },
-        { x: 4, y: 3.8, z: 6, geo: 'box', s: 0.15 },
-        { x: -4, y: 2.6, z: -6, geo: 'oct', s: 0.2 },
-        { x: 6, y: 1.5, z: -6, geo: 'tet', s: 0.18 },
-        { x: -6, y: 3.0, z: -5, geo: 'ico', s: 0.16 },
-        { x: 3, y: 4.0, z: -7, geo: 'box', s: 0.12 },
-        { x: -3, y: 3.5, z: 7, geo: 'oct', s: 0.14 },
-        { x: 7, y: 2.8, z: 5, geo: 'tet', s: 0.2 },
-        { x: -7, y: 1.6, z: 2, geo: 'ico', s: 0.17 },
-    ];
-
-    fragmentConfigs.forEach(function (cfg, i) {
-        var geo;
-        switch (cfg.geo) {
-            case 'box': geo = new THREE.BoxGeometry(cfg.s, cfg.s, cfg.s); break;
-            case 'oct': geo = new THREE.OctahedronGeometry(cfg.s, 0); break;
-            case 'tet': geo = new THREE.TetrahedronGeometry(cfg.s, 0); break;
-            case 'ico': geo = new THREE.IcosahedronGeometry(cfg.s, 0); break;
-        }
-        var fragMat = new THREE.MeshBasicMaterial({
-            color: 0x4466aa, wireframe: true, transparent: true, opacity: 0.2 + Math.random() * 0.15,
+        // Core Glowing Node
+        const coreMat = new THREE.MeshBasicMaterial({
+            color: n.color,
+            wireframe: false,
+            transparent: true,
+            opacity: 0.85
         });
-        var frag = new THREE.Mesh(geo, fragMat);
-        frag.position.set(cfg.x, cfg.y, cfg.z);
-        frag.userData = { baseY: cfg.y, speed: 0.3 + Math.random() * 0.4, phase: i * 0.7 };
-        outpostGroup.add(frag);
-        fragments.push(frag);
-    });
+        const core = new THREE.Mesh(nodeGeom, coreMat);
+        core.scale.setScalar(n.size);
+        nodeSubGroup.add(core);
 
-    // ===== DISTANT TOWER SILHOUETTES =====
-    var towerMat = new THREE.MeshStandardMaterial({ color: 0x080818, metalness: 0.5, roughness: 0.6 });
-
-    var towerConfigs = [
-        { x: 12, z: 10, h: 4, r: 0.15 },
-        { x: -14, z: 8, h: 3, r: 0.12 },
-        { x: 10, z: -12, h: 5, r: 0.18 },
-        { x: -11, z: -10, h: 3.5, r: 0.14 },
-    ];
-
-    towerConfigs.forEach(function (cfg) {
-        var tower = new THREE.Mesh(new THREE.CylinderGeometry(cfg.r * 0.6, cfg.r, cfg.h, 6), towerMat);
-        tower.position.set(cfg.x, cfg.h / 2 - 0.5, cfg.z);
-        outpostGroup.add(tower);
-
-        // Tower tip light
-        var towerTip = new THREE.Mesh(
-            new THREE.SphereGeometry(0.04, 8, 8),
-            new THREE.MeshBasicMaterial({ color: 0x2244aa, transparent: true, opacity: 0.5 })
-        );
-        towerTip.position.set(cfg.x, cfg.h - 0.3, cfg.z);
-        outpostGroup.add(towerTip);
-    });
-
-    // ===== HOLOGRAPHIC DATA ORBS =====
-    var orbs = [];
-    var orbGroup = new THREE.Group();
-    outpostGroup.add(orbGroup);
-
-    var orbConfigs = [
-        { color: 0x4488ff, r: 2.8, h: 1.8, speed: 0.18 },
-        { color: 0x44ccff, r: 3.4, h: 2.4, speed: 0.14 },
-        { color: 0x6666ff, r: 2.2, h: 3.0, speed: 0.22 },
-        { color: 0x8844ff, r: 3.8, h: 1.4, speed: 0.12 },
-        { color: 0x44ffbb, r: 2.6, h: 2.8, speed: 0.20 },
-        { color: 0x6688ff, r: 3.0, h: 2.0, speed: 0.16 },
-        { color: 0x88aaff, r: 3.6, h: 3.2, speed: 0.10 },
-        { color: 0xaa66ff, r: 2.0, h: 1.6, speed: 0.24 },
-    ];
-
-    orbConfigs.forEach(function (cfg, i) {
-        var size = 0.1 + Math.random() * 0.06;
-        var orbMat = new THREE.MeshStandardMaterial({
-            color: cfg.color, emissive: cfg.color, emissiveIntensity: 0.6,
-            transparent: true, opacity: 0.8, metalness: 0.3, roughness: 0.2,
+        // Outer Wireframe Shield / Container Pod Shell
+        const wireMat = new THREE.MeshBasicMaterial({
+            color: n.color,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.28
         });
-        var orb = new THREE.Mesh(new THREE.SphereGeometry(size, 16, 16), orbMat);
+        const wire = new THREE.Mesh(wireGeom, wireMat);
+        wire.scale.setScalar(n.size);
+        nodeSubGroup.add(wire);
 
-        // Ring around orb
-        var ring = new THREE.Mesh(
-            new THREE.TorusGeometry(size + 0.08, 0.008, 8, 32),
-            new THREE.MeshBasicMaterial({ color: cfg.color, transparent: true, opacity: 0.3 })
-        );
-        orb.add(ring);
+        // Orbiting Ring around major nodes
+        const ringGeom = new THREE.RingGeometry(n.size * 1.4, n.size * 1.48, 24);
+        const ringMat = new THREE.MeshBasicMaterial({
+            color: n.color,
+            side: THREE.DoubleSide,
+            transparent: true,
+            opacity: 0.35
+        });
+        const ring = new THREE.Mesh(ringGeom, ringMat);
+        ring.rotation.x = Math.PI / 2;
+        nodeSubGroup.add(ring);
 
-        // Inner glow core
-        var glow = new THREE.Mesh(
-            new THREE.SphereGeometry(size * 0.5, 8, 8),
-            new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 })
-        );
-        orb.add(glow);
-
-        orb.userData = {
-            angle: (i / 8) * Math.PI * 2,
-            radius: cfg.r,
-            height: cfg.h,
-            speed: cfg.speed,
-            ring: ring, glow: glow,
-            baseScale: 1, targetScale: 1,
-            baseEmissive: 0.6, targetEmissive: 0.6,
-        };
-
-        orbGroup.add(orb);
-        orbs.push(orb);
+        pipelineGroup.add(nodeSubGroup);
+        nodeMeshes.push({ group: nodeSubGroup, core, wire, ring, baseScale: n.size });
     });
 
-    // ===== FLOATING DUST PARTICLES =====
-    var dustCount = 500;
-    var dustPos = new Float32Array(dustCount * 3);
-    for (var i = 0; i < dustCount * 3; i += 3) {
-        dustPos[i] = (Math.random() - 0.5) * 30;
-        dustPos[i + 1] = Math.random() * 12;
-        dustPos[i + 2] = (Math.random() - 0.5) * 30;
+    // ===== PIPELINE CONNECTIONS (Curves connecting CI/CD stages) =====
+    const connectionPairs = [
+        [0, 1], [0, 2], // Git to CI Build and Tests
+        [1, 3], [2, 3], // Build & Test to Registry
+        [3, 4], [3, 5], // Registry to Ingress and Pods
+        [4, 6], [5, 6]  // Ingress & Pods to Prod
+    ];
+
+    const pipelineCurves = [];
+    const tubeMaterial = new THREE.LineBasicMaterial({
+        color: 0x27272a,
+        transparent: true,
+        opacity: 0.55
+    });
+
+    connectionPairs.forEach(([fromIdx, toIdx]) => {
+        const p1 = nodeCoords[fromIdx];
+        const p2 = nodeCoords[toIdx];
+        const midX = (p1.x + p2.x) / 2;
+        const midY = (p1.y + p2.y) / 2 + 1.2; // slight arch
+        const midZ = (p1.z + p2.z) / 2;
+
+        const curve = new THREE.QuadraticBezierCurve3(
+            new THREE.Vector3(p1.x, p1.y, p1.z),
+            new THREE.Vector3(midX, midY, midZ),
+            new THREE.Vector3(p2.x, p2.y, p2.z)
+        );
+        pipelineCurves.push(curve);
+
+        const points = curve.getPoints(32);
+        const lineGeom = new THREE.BufferGeometry().setFromPoints(points);
+        const line = new THREE.Line(lineGeom, tubeMaterial);
+        pipelineGroup.add(line);
+    });
+
+    // ===== PULSING DATA PACKETS / DEPLOYMENT PAYLOADS =====
+    // Small glowing spheres traveling along the CI/CD pipeline curves
+    const packetCount = 28;
+    const packets = [];
+    const packetGeom = new THREE.SphereGeometry(0.12, 8, 8);
+
+    for (let i = 0; i < packetCount; i++) {
+        const curveIdx = Math.floor(Math.random() * pipelineCurves.length);
+        const isSuccess = Math.random() > 0.25; // mostly green success packets, some cyan
+        const packetMat = new THREE.MeshBasicMaterial({
+            color: isSuccess ? EMERALD : CYAN,
+            transparent: true,
+            opacity: 0.95
+        });
+        const packetMesh = new THREE.Mesh(packetGeom, packetMat);
+        pipelineGroup.add(packetMesh);
+
+        packets.push({
+            mesh: packetMesh,
+            curveIdx: curveIdx,
+            progress: Math.random(),
+            speed: 0.003 + Math.random() * 0.005
+        });
     }
-    var dustGeom = new THREE.BufferGeometry();
-    dustGeom.setAttribute('position', new THREE.BufferAttribute(dustPos, 3));
-    var dust = new THREE.Points(dustGeom, new THREE.PointsMaterial({
-        color: 0x6677aa, size: 0.025, transparent: true, opacity: 0.3, sizeAttenuation: true,
-    }));
-    scene.add(dust);
 
-    // ===== LIGHTS =====
-    // Ambient (very dim — faint starlight)
-    scene.add(new THREE.AmbientLight(0x0a0a20, 0.4));
-
-    // Laptop screen glow (blue)
-    var screenLight = new THREE.PointLight(0x3355cc, 2, 6);
-    screenLight.position.set(0, 1.2, -0.5);
-    screenLight.castShadow = true;
-    outpostGroup.add(screenLight);
-
-    // Overhead starlight
-    var overheadLight = new THREE.DirectionalLight(0x334477, 0.4);
-    overheadLight.position.set(3, 12, 4);
-    overheadLight.castShadow = true;
-    scene.add(overheadLight);
-
-    // Blue rim light
-    var rimLight = new THREE.PointLight(0x223388, 0.6, 20);
-    rimLight.position.set(-6, 6, -6);
-    scene.add(rimLight);
-
-    // Faint warm accent
-    var warmLight = new THREE.PointLight(0x553322, 0.3, 15);
-    warmLight.position.set(5, 4, 5);
-    scene.add(warmLight);
-
-    // ===== EVENTS =====
-    window.addEventListener('mousemove', function (e) {
-        targetMouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-        targetMouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-        mouseVec.x = targetMouse.x;
-        mouseVec.y = targetMouse.y;
+    // ===== BACKGROUND TELEMETRY PARTICLES (Cloud Cluster atmosphere) =====
+    const particleCount = 200;
+    const particlePos = new Float32Array(particleCount * 3);
+    for (let i = 0; i < particleCount * 3; i += 3) {
+        particlePos[i] = (Math.random() - 0.5) * 50;
+        particlePos[i + 1] = (Math.random() - 0.5) * 20;
+        particlePos[i + 2] = (Math.random() - 0.5) * 30 - 5;
+    }
+    const particleGeom = new THREE.BufferGeometry();
+    particleGeom.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
+    const particleMat = new THREE.PointsMaterial({
+        color: 0x52525b,
+        size: 0.15,
+        transparent: true,
+        opacity: 0.4
     });
+    const cloudParticles = new THREE.Points(particleGeom, particleMat);
+    pipelineGroup.add(cloudParticles);
 
-    window.addEventListener('resize', function () {
+    // ===== RESIZE HANDLER =====
+    window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
-    // ===== DRAG-TO-ROTATE =====
-    var isDragging = false;
-    var prevDragX = 0;
-    var dragVelocity = 0;
-    var friction = 0.95;
-
-    window.addEventListener('mousedown', function (e) {
-        // Don't drag if clicking on any interactive element (or its children like SVG icons)
-        if (e.target.closest('a, button, input, textarea, select, .btn, .skill-tag, .nav-link, .social-icon, .contact-link, .contact-btn, .contact-item, .project-github-link, .nav-logo')) return;
-        isDragging = true;
-        prevDragX = e.clientX;
-        dragVelocity = 0;
-    });
-
-    window.addEventListener('mousemove', function (e) {
-        if (!isDragging) return;
-        var deltaX = e.clientX - prevDragX;
-        dragVelocity = deltaX * 0.003;
-        outpostGroup.rotation.y += dragVelocity;
-        prevDragX = e.clientX;
-    });
-
-    window.addEventListener('mouseup', function () {
-        isDragging = false;
-    });
-
-    // Touch support
-    window.addEventListener('touchstart', function (e) {
-        if (e.target.closest('a, button, input, textarea, select, .btn, .skill-tag, .nav-link, .social-icon, .contact-link, .contact-btn, .contact-item, .project-github-link, .nav-logo')) return;
-        isDragging = true;
-        prevDragX = e.touches[0].clientX;
-        dragVelocity = 0;
-    }, { passive: true });
-
-    window.addEventListener('touchmove', function (e) {
-        if (!isDragging) return;
-        var deltaX = e.touches[0].clientX - prevDragX;
-        dragVelocity = deltaX * 0.003;
-        outpostGroup.rotation.y += dragVelocity;
-        prevDragX = e.touches[0].clientX;
-    }, { passive: true });
-
-    window.addEventListener('touchend', function () {
-        isDragging = false;
-    });
-
     // ===== ANIMATION LOOP =====
+    let clock = new THREE.Clock();
+
     function animate() {
         requestAnimationFrame(animate);
-        var t = clock.getElapsedTime();
 
-        // Smooth mouse follow
-        mouse.x += (targetMouse.x - mouse.x) * 0.03;
-        mouse.y += (targetMouse.y - mouse.y) * 0.03;
+        const delta = clock.getDelta();
+        const time = clock.getElapsedTime();
 
-        // Camera parallax
-        camera.position.x = mouse.x * 1.2;
-        camera.position.y = 3.5 + mouse.y * 0.6;
-        camera.lookAt(0, 1.2, 0);
+        // Mouse smooth lerp
+        mouse.x += (mouse.targetX - mouse.x) * 0.05;
+        mouse.y += (mouse.targetY - mouse.y) * 0.05;
 
-        // Stars slow rotation
-        stars.rotation.y = t * 0.003;
+        // Subtle camera tilt following cursor & natural float
+        if (!prefersReducedMotion) {
+            camera.position.x = mouse.x * 2.5;
+            camera.position.y = 8 + (-mouse.y * 1.5) + Math.sin(time * 0.5) * 0.3;
+            camera.lookAt(0, 0.5, 0);
 
-        // Platform ring glow pulse
-        innerRing.material.opacity = 0.2 + Math.sin(t * 1.2) * 0.08;
-        outerRing.material.opacity = 0.12 + Math.sin(t * 0.8 + 1) * 0.05;
+            // Gently rotate entire cluster
+            pipelineGroup.rotation.y = Math.sin(time * 0.15) * 0.08;
 
-        // Energy pylon tips pulse
-        pylons.forEach(function (obj, i) {
-            if (obj.geometry.type === 'SphereGeometry') {
-                // Glowing tip
-                obj.material.opacity = 0.5 + Math.sin(t * 2 + i * 1.5) * 0.3;
-                obj.scale.setScalar(0.9 + Math.sin(t * 3 + i) * 0.2);
-            } else {
-                // Energy beam
-                obj.material.opacity = 0.05 + Math.sin(t * 1.5 + i * 0.8) * 0.04;
-            }
-        });
+            // Animate each cluster node
+            nodeMeshes.forEach((n, idx) => {
+                n.wire.rotation.x += 0.01;
+                n.wire.rotation.y += 0.015;
+                n.ring.rotation.z += 0.008;
 
-        // Data fragments float and spin
-        fragments.forEach(function (frag) {
-            var d = frag.userData;
-            frag.position.y = d.baseY + Math.sin(t * d.speed + d.phase) * 0.3;
-            frag.rotation.x = t * 0.4 + d.phase;
-            frag.rotation.y = t * 0.6 + d.phase * 0.5;
-        });
+                // Breathing pulse effect
+                const pulse = Math.sin(time * 2 + idx) * 0.08 + 1;
+                n.core.scale.setScalar(n.baseScale * pulse);
+            });
 
-        // Holographic screens flicker
-        holoScreen1.material.opacity = 0.12 + Math.sin(t * 3.5) * 0.04;
-        holoScreen2.material.opacity = 0.12 + Math.sin(t * 3.5 + 1.5) * 0.04;
-
-        // Raycaster for orb hover interactivity
-        raycaster.setFromCamera(mouseVec, camera);
-        var hits = raycaster.intersectObjects(orbs);
-
-        // Reset all orbs
-        orbs.forEach(function (orb) {
-            orb.userData.targetScale = 1;
-            orb.userData.targetEmissive = 0.6;
-        });
-
-        // Highlight hovered orb — it pulses bigger and glows
-        if (hits.length > 0) {
-            var hit = hits[0].object;
-            hit.userData.targetScale = 1.8;
-            hit.userData.targetEmissive = 2.5;
-        }
-
-        // Animate orbiting orbs
-        orbs.forEach(function (orb, i) {
-            var d = orb.userData;
-            var orbAngle = d.angle + t * d.speed * 0.4;
-
-            orb.position.x = Math.cos(orbAngle) * d.radius;
-            orb.position.z = Math.sin(orbAngle) * d.radius;
-            orb.position.y = d.height + Math.sin(t * 0.6 + i * 0.9) * 0.25;
-
-            // Smooth scale transition
-            d.baseScale += (d.targetScale - d.baseScale) * 0.07;
-            orb.scale.setScalar(d.baseScale);
-
-            // Smooth emissive glow transition
-            d.baseEmissive += (d.targetEmissive - d.baseEmissive) * 0.07;
-            orb.material.emissiveIntensity = d.baseEmissive;
-
-            // Ring spin
-            d.ring.rotation.x = t * 2.5 + i;
-            d.ring.rotation.y = t * 1.8 + i * 0.5;
-
-            // Pulsing opacity
-            orb.material.opacity = 0.7 + Math.sin(t * 2.2 + i * 0.7) * 0.15;
-            d.glow.material.opacity = 0.2 + Math.sin(t * 3 + i) * 0.15;
-        });
-
-        // Dust particles drift
-        dust.rotation.y = t * 0.006;
-
-        // Laptop screen glow pulse
-        screenLight.intensity = 2 + Math.sin(t * 1.5) * 0.4;
-        screenMat.emissiveIntensity = 1.2 + Math.sin(t * 1.5) * 0.3;
-
-        // Drag inertia — keep spinning after release
-        if (!isDragging) {
-            dragVelocity *= friction;
-            outpostGroup.rotation.y += dragVelocity;
+            // Move CI/CD data packets along pipeline curves
+            packets.forEach((pkt) => {
+                pkt.progress += pkt.speed;
+                if (pkt.progress >= 1) {
+                    pkt.progress = 0;
+                    pkt.curveIdx = Math.floor(Math.random() * pipelineCurves.length);
+                }
+                const pt = pipelineCurves[pkt.curveIdx].getPoint(pkt.progress);
+                pkt.mesh.position.copy(pt);
+            });
         }
 
         renderer.render(scene, camera);
