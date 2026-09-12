@@ -4,16 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shubrath Shetty | Portfolio</title>
-  <link rel="icon" type="image/x-icon" href="public/favicon.ico">
+  <title>Shubrath Shetty | DevOps &amp; Cloud Software Engineer</title>
+  <meta name="theme-color" content="#09090b">
   <meta name="description"
-    content="Portfolio of Shubrath Shetty — AI & Data Science student passionate about building intelligent systems.">
+    content="Shubrath Shetty — DevOps &amp; Cloud Software Engineer. Automating cloud infrastructure, architecting CI/CD pipelines, and writing scalable backend systems.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
   <!-- Three.js CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -21,18 +20,19 @@
 
 <body>
   <!-- Three.js 3D Background -->
-  <canvas id="threeBgCanvas"></canvas>
+  <canvas id="threeBgCanvas" aria-hidden="true"></canvas>
+  <a class="skip-link" href="#hero">Skip to content</a>
   <!-- Navbar -->
   <nav class="navbar" id="navbar">
     <div class="container nav-container">
-      <a href="#" class="nav-logo">SS </a>
+      <a href="#hero" class="nav-logo" aria-label="Shubrath Shetty home">shubrath<span>@infra</span>:~$</a>
       <div class="nav-links desktop-only" id="desktopNav">
         <a href="#skills" class="nav-link">Skills</a>
         <a href="#projects" class="nav-link">Projects</a>
         <a href="#achievements" class="nav-link">Achievements</a>
         <a href="#contact" class="nav-link">Contact</a>
       </div>
-      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle Menu">
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation menu" aria-controls="mobileMenu">
         <span class="hamburger"></span>
       </button>
     </div>
@@ -45,19 +45,19 @@
     </div>
   </nav>
 
+  <main>
   <!-- Hero Section -->
   <section class="hero" id="hero">
     <div class="container hero-content">
-      <p class="hero-greeting animate-in">Hello, I'm</p>
+      <p class="badge badge-outline hero-status animate-in"><span class="status-dot" aria-hidden="true"></span>System Status: All pipelines operational</p>
       <h1 class="hero-name animate-in delay-1">Shubrath Shetty</h1>
-      <h2 class="hero-tagline animate-in delay-2">AI & Data Science Student</h2>
+      <h2 class="hero-tagline animate-in delay-2">DevOps &amp; Cloud Software Engineer</h2>
       <p class="hero-description animate-in delay-3">
-        Passionate about building intelligent systems and solving real-world problems.<br>
-        B.Tech in AI & Data Science at A.J Institute of Engineering and Technology, Mangaluru.
+        Automating cloud infrastructure, architecting CI/CD pipelines, and writing scalable backend systems.
       </p>
       <div class="hero-actions animate-in delay-4">
-        <a href="#contact" class="btn btn-primary">Get In Touch</a>
-        <a href="#projects" class="btn btn-outline">View Projects</a>
+        <a href="#contact" class="btn btn-default command">$ deploy --contact</a>
+        <a href="#projects" class="btn btn-outline command">$ kubectl get-logs</a>
       </div>
       <div class="hero-socials animate-in delay-5">
         <a href="https://github.com/Shubrathshetty" target="_blank" rel="noopener noreferrer" aria-label="GitHub"
@@ -88,122 +88,65 @@
   <!-- Skills Section -->
   <section id="skills" class="section skills-section">
     <div class="container">
-      <h2 class="section-title">Tools & Technologies</h2>
-
-      <div class="skills-grid-horizontal">
-        <!-- Languages -->
-        <div class="skill-item">
-          <i class="devicon-java-plain colored"></i>
-          <span>Java</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-c-plain colored"></i>
-          <span>C</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-cplusplus-plain colored"></i>
-          <span>C++</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-python-plain colored"></i>
-          <span>Python</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-typescript-plain colored"></i>
-          <span>TypeScript</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-mysql-plain colored"></i>
-          <span>SQL</span>
-        </div>
-
-        <!-- Frameworks -->
-        <div class="skill-item">
-          <i class="devicon-nextjs-original-wordmark colored"></i> <!-- fallback if wordmark missing -->
-          <span>Next.js</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-react-original colored"></i>
-          <span>React</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-laravel-original colored"></i>
-          <span>Laravel</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-fastapi-plain colored"></i>
-          <span>FastAPI</span>
-        </div>
-
-        <!-- Databases -->
-        <div class="skill-item">
-          <i class="devicon-mysql-plain colored"></i>
-          <span>MySQL</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-postgresql-plain colored"></i>
-          <span>PostgreSQL</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-supabase-plain colored"></i>
-          <span>Supabase</span>
-        </div>
-        <div class="skill-item">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="colored-svg">
-            <path d="M19.62 11.558l-3.203 2.98-2.972-5.995 1.538-3.448c.4-.7 1.024-.692 1.414 0z" fill="#ffa000" />
-            <path d="M13.445 8.543l2.972 5.995-11.97 11.135z" fill="#f57f17" />
-            <path
-              d="M23.123 7.003c.572-.55 1.164-.362 1.315.417l3.116 18.105-10.328 6.2c-.36.2-1.32.286-1.32.286s-.874-.104-1.207-.3L4.447 25.673z"
-              fill="#ffca28" />
-            <path d="M13.445 8.543l-8.997 17.13L8.455.638c.148-.78.592-.855.988-.167z" fill="#ffa000" />
-          </svg>
-          <span>Firebase</span>
-        </div>
-
-        <!-- Tools -->
-        <div class="skill-item">
-          <i class="devicon-docker-plain colored"></i>
-          <span>Docker</span>
-        </div>
-        <div class="skill-item">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#ffffff" class="colored-svg">
-            <path
-              d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.332-1.756-1.332-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-          </svg>
-          <span>GitHub</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-vscode-plain colored"></i>
-          <span>VS Code</span>
-        </div>
-        <div class="skill-item">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/9/9c/IntelliJ_IDEA_Icon.svg" alt="IntelliJ IDEA">
-          <span>IntelliJ</span>
-        </div>
-        <div class="skill-item">
-          <i class="devicon-eclipse-plain colored"></i>
-          <span>Eclipse</span>
-        </div>
-
-        <!-- Misc Tools without standard icons -->
-        <div class="skill-item">
-          <!-- Cisco Icon -->
-          <img src="https://www.vectorlogo.zone/logos/cisco/cisco-icon.svg" alt="Cisco Packet Tracer">
-          <span>Packet Tracer</span>
-        </div>
-        <div class="skill-item">
-          <!-- Power BI Icon -->
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" class="colored-svg">
-            <rect x="6" y="14" width="6" height="14" rx="1" fill="#F2C811" />
-            <rect x="13" y="10" width="6" height="18" rx="1" fill="#F2C811" />
-            <rect x="20" y="4" width="6" height="24" rx="1" fill="#F2C811" />
-          </svg>
-          <span>Power BI</span>
-        </div>
-        <div class="skill-item">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg" alt="Figma">
-          <span>Figma</span>
-        </div>
+      <div class="section-heading">
+        <p class="section-eyebrow">01 / CAPABILITIES</p>
+        <h2 class="section-title">Skills matrix<span class="text-success">.</span></h2>
+        <p class="section-description">The stack behind the build, the deployment, and everything in between.</p>
+      </div>
+      <div class="skills-grid">
+        <article class="card skill-category" data-animate>
+          <header class="skill-card-header">
+            <h3 class="badge badge-outline category-badge">Cloud &amp; Infrastructure</h3>
+            <span class="badge status-pill">v2.0 / active</span>
+          </header>
+          <p class="skill-description">Infrastructure that scales with the system.</p>
+          <ul class="skill-list" aria-label="Cloud &amp; Infrastructure skills">
+            <li class="badge skill-tag">Docker</li>
+            <li class="badge skill-tag">K8s</li>
+            <li class="badge skill-tag">Linux</li>
+            <li class="badge skill-tag">Cloud</li>
+          </ul>
+        </article>
+        <article class="card skill-category" data-animate>
+          <header class="skill-card-header">
+            <h3 class="badge badge-outline category-badge">CI/CD &amp; Automation</h3>
+            <span class="badge status-pill">v2.0 / active</span>
+          </header>
+          <p class="skill-description">From source control to repeatable deployments.</p>
+          <ul class="skill-list" aria-label="CI/CD &amp; Automation skills">
+            <li class="badge skill-tag">GitHub Actions</li>
+            <li class="badge skill-tag">Pipelines</li>
+            <li class="badge skill-tag">Scripting</li>
+          </ul>
+        </article>
+        <article class="card skill-category" data-animate>
+          <header class="skill-card-header">
+            <h3 class="badge badge-outline category-badge">Backend &amp; APIs</h3>
+            <span class="badge status-pill">v2.0 / active</span>
+          </header>
+          <p class="skill-description">The services and logic behind the interface.</p>
+          <ul class="skill-list" aria-label="Backend &amp; APIs skills">
+            <li class="badge skill-tag">FastAPI</li>
+            <li class="badge skill-tag">Python</li>
+            <li class="badge skill-tag">Java</li>
+            <li class="badge skill-tag">TypeScript</li>
+            <li class="badge skill-tag">SQL</li>
+          </ul>
+        </article>
+        <article class="card skill-category" data-animate>
+          <header class="skill-card-header">
+            <h3 class="badge badge-outline category-badge">Databases &amp; Tools</h3>
+            <span class="badge status-pill">v2.0 / active</span>
+          </header>
+          <p class="skill-description">Reliable persistence. A practical developer toolkit.</p>
+          <ul class="skill-list" aria-label="Databases &amp; Tools skills">
+            <li class="badge skill-tag">PostgreSQL</li>
+            <li class="badge skill-tag">MySQL</li>
+            <li class="badge skill-tag">Supabase</li>
+            <li class="badge skill-tag">Git</li>
+            <li class="badge skill-tag">VS Code</li>
+          </ul>
+        </article>
       </div>
 
       <!-- Soft Skills Grid -->
@@ -224,125 +167,62 @@
   <!-- Projects Section -->
   <section id="projects" class="section projects-section">
     <div class="container">
-      <h2 class="section-title">Featured Projects</h2>
-      <div class="projects-grid">
-
-        <div class="project-card" data-animate>
-          <div class="project-card-header">
-            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="1.5">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-            </svg>
-            <a href="https://github.com/Shubrathshetty/Evento.git" target="_blank" rel="noopener noreferrer"
-              class="project-github-link" aria-label="GitHub Repo">
-              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                <path
-                  d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.332-1.756-1.332-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-              </svg>
-            </a>
-          </div>
-          <h3 class="project-title">EventO</h3>
-          <p class="project-description">An Event management system designed to streamline and digitize the
-            schedules of the events efficiently.</p>
-          <div class="project-tech">
-            <span class="tech-tag">Python,TypeScript,C++</span>
-
-          </div>
-        </div>
-
-        <div class="project-card project-card--preview" data-animate>
-          <!-- Preview image at top -->
-          <div class="project-preview-img-wrap">
-            <img src="Images/Missing person.png" alt="Finding Missing Person App Preview" class="project-preview-img" />
-          </div>
-          <div class="project-card-body">
-            <div class="project-card-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-              </svg>
-              <a href="https://github.com/Shubrathshetty/FINDING-MISSING-PERSON-USING-AI-AND-ALSO-SHOW-THE-AGE-AND-GENDER-DETECTION"
-                target="_blank" rel="noopener noreferrer" class="project-github-link" aria-label="GitHub Repo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.332-1.756-1.332-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-              </a>
-            </div>
-            <h3 class="project-title">Finding Missing Person</h3>
-            <p class="project-description">AI-powered system for identifying missing persons using facial recognition
-              with
-              age and gender detection capabilities.</p>
-            <div class="project-tech">
-              <span class="tech-tag">Python,OpenCV,Deep Learning</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card project-card--preview" data-animate>
-          <!-- Preview image at top -->
-          <div class="project-preview-img-wrap">
-            <img src="Images/weather.PNG" alt="Frost-Cast App Preview" class="project-preview-img" />
-          </div>
-          <div class="project-card-body">
-            <div class="project-card-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-              </svg>
-              <a href="https://github.com/Shubrathshetty/Frost-Cast" target="_blank" rel="noopener noreferrer"
-                class="project-github-link" aria-label="GitHub Repo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.332-1.756-1.332-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-              </a>
-            </div>
-            <h3 class="project-title">Frost-Cast</h3>
-            <p class="project-description">A sleek weather forecasting application providing accurate and real-time
-              weather data and forecasts.</p>
-            <div class="project-tech">
-              <span class="tech-tag">TypeScript,Weather API</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="project-card project-card--preview" data-animate>
-          <!-- Preview image at top -->
-          <div class="project-preview-img-wrap">
-            <img src="Images/recipe.PNG" alt="RecipeBook App Preview" class="project-preview-img" />
-          </div>
-          <div class="project-card-body">
-            <div class="project-card-header">
-              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.5">
-                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-              </svg>
-              <a href="https://github.com/Shubrathshetty/receipe-book.git" target="_blank" rel="noopener noreferrer"
-                class="project-github-link" aria-label="GitHub Repo">
-                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-                  <path
-                    d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.332-1.756-1.332-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
-                </svg>
-              </a>
-            </div>
-            <h3 class="project-title">RecipeBook</h3>
-            <p class="project-description">A Recipe Management System that allows users to search for recipes based on
-              ingredients, cuisine, and more.</p>
-            <div class="project-tech">
-              <span class="tech-tag">HTML,JavaScript.</span>
-            </div>
-          </div>
-        </div>
-
+      <div class="section-heading">
+        <p class="section-eyebrow">02 / DEPLOYMENTS</p>
+        <h2 class="section-title">Project pipeline<span class="text-success">.</span></h2>
+        <p class="section-description">Building the next release. Follow along as services come online.</p>
       </div>
+      <article class="card terminal-card" aria-labelledby="manifest-title" data-animate>
+        <header class="terminal-header">
+          <div class="traffic-lights" aria-hidden="true"><span></span><span></span><span></span></div>
+          <h3 id="manifest-title">service-manifest.yaml</h3>
+          <span class="terminal-label">read-only</span>
+        </header>
+        <div class="terminal-body">
+          <p class="terminal-comment"># deployment / portfolio-services</p>
+          <pre class="manifest"><code><span class="code-key">apiVersion:</span> v1
+<span class="code-key">kind:</span> Service
+<span class="code-key">metadata:</span>
+  <span class="code-key">name:</span> portfolio-services
+<span class="code-key">spec:</span>
+  <span class="code-key">status:</span> <span class="text-success">provisioning</span></code></pre>
+          <p class="provisioning-status"><span class="text-success">[PROVISIONING]</span> Microservices currently being containerized. Project pipeline deploying soon...</p>
+          <p class="terminal-prompt" aria-hidden="true"><span class="text-success">shubrath@infra:~$</span> <span class="terminal-cursor"></span></p>
+        </div>
+        <footer class="terminal-footer"><span class="badge badge-outline">deployment pending</span><span>Watching for the next release</span></footer>
+      </article>
+
+      <!-- Future project template: replace placeholders with verified project details before publishing.
+      <div class="projects-grid">
+        <article class="card project-card" data-animate>
+          <header class="project-card-header">
+            <h3 class="project-title">Service name</h3>
+            <span class="badge badge-outline">Microservice</span>
+          </header>
+          <p class="project-description">Describe the service, its architecture, and the problem it solves.</p>
+          <div class="project-metrics" aria-label="Service metrics">
+            <span class="badge badge-outline">Uptime: TBD</span>
+            <span class="badge badge-outline">Latency: TBD</span>
+            <span class="badge status-pill">CI/CD: pending</span>
+          </div>
+          <div class="project-tech">
+            <span class="badge tech-tag">Docker</span>
+            <span class="badge tech-tag">K8s</span>
+          </div>
+        </article>
+      </div>
+      -->
     </div>
   </section>
 
   <!-- Achievements Section -->
   <section id="achievements" class="section achievements-section">
     <div class="container">
-      <h2 class="section-title">Achievements</h2>
+      <div class="section-heading">
+        <p class="section-eyebrow">03 / BEYOND THE TERMINAL</p>
+        <h2 class="section-title">Experience &amp; achievements<span class="text-success">.</span></h2>
+        <p class="section-description">Community, collaboration, and continuous learning.</p>
+      </div>
       <div class="achievements-grid">
         <div class="achievement-card" data-animate>
           <div class="achievement-icon">⚙️</div>
@@ -368,7 +248,7 @@
 
       <!-- Education -->
       <div class="education-section" data-animate>
-        <h3 class="education-title">🎓 Education</h3>
+        <h3 class="education-title">Education</h3>
         <div class="education-grid">
           <div class="education-card">
             <h4>B.Tech — AI & Data Science</h4>
@@ -393,11 +273,14 @@
   <!-- Contact Section -->
   <section id="contact" class="section contact-section">
     <div class="container">
-      <h2 class="section-title">Get In Touch</h2>
+      <div class="section-heading">
+        <p class="section-eyebrow">04 / ESTABLISH CONNECTION</p>
+        <h2 class="section-title">Let’s build something reliable<span class="text-success">.</span></h2>
+      </div>
       <div class="contact-content" data-animate>
         <!-- Top area: tagline -->
         <div class="contact-tagline">
-          <p class="contact-emoji">💬</p>
+          <p class="badge badge-outline contact-status"><span class="status-dot" aria-hidden="true"></span>Open to new opportunities</p>
           <p class="contact-text">
             I'm currently looking for new opportunities. Whether you have a question, a project idea, or just want to
             say hi — I'd love to hear from you!
@@ -444,10 +327,12 @@
         </div>
 
         <!-- CTA Button -->
-        <a href="mailto:subrathshetty2k06@gmail.com" class="btn btn-primary contact-btn">Say Hello 👋</a>
+        <a href="mailto:subrathshetty2k06@gmail.com" class="btn btn-default contact-btn command">$ connect --email</a>
       </div>
     </div>
   </section>
+
+  </main>
 
   <!-- Footer -->
   <footer class="footer">
@@ -475,8 +360,8 @@
           </svg>
         </a>
       </div>
-      <p class="footer-text">Designed & Built by Shubrath Shetty</p>
-      <p class="footer-copyright">&copy; 2026 All rights reserved.</p>
+      <p class="footer-copyright">&copy; 2026 Shubrath Shetty</p>
+      <p class="footer-telemetry">commit: main-rev <span aria-hidden="true">|</span> latency: 24ms</p>
     </div>
   </footer>
 
